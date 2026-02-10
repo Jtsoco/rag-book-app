@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -71,15 +73,15 @@ WSGI_APPLICATION = 'book_rag_backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
+load_dotenv()
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "devdb",
-        "USER": "postgres",
-        "PASSWORD": "postgres",
-        "HOST": "localhost",
-        "PORT": "5432",
+        "NAME": os.getenv("DBNAME"),
+        "USER": os.getenv("DBUSER"),
+        "PASSWORD": os.getenv("DBPASSWORD"),
+        "HOST": os.getenv("DBHOST"),
+        "PORT": os.getenv("DBPORT"),
     }
 }
 

@@ -27,15 +27,30 @@ The django settings should be this. However, if you decide to use a different na
 
 ```python
 # port is the default postgres port, using generic user and password for the dev environment
+# store your username and password, host and port in a .env
+load_dotenv()
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "devdb",
-        "USER": "postgres",
-        "PASSWORD": "postgres",
-        "HOST": "localhost",
-        "PORT": "5432",
+        "NAME": "",
+        "USER": os.getenv("DBUSER"),
+        "PASSWORD": os.getenv("DBPASSWORD"),
+        "HOST": os.getenv("DBHOST"),
+        "PORT": os.getenv("DBPORT"),
     }
 }
+
+
+```
+
+example environment
+
+```env
+DBUSER=[yourUSER]
+DBPASSWORD=[yourPassword]
+DBNAME=[your db, devdb]
+DBHOST=[your host, probably localhost]
+DBPORT=[default is 5432]
+
 
 ```

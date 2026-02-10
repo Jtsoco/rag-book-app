@@ -34,3 +34,4 @@ Make a mindmap of something new when making it, see how it connects
 
 ### lower priority to do:
 - [ ] psycopg2 is marked in the DATABASES engine area for settings, look into psycogp3
+- [ ] use different credentials for .env when using a production server, for every variable
