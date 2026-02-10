@@ -5,6 +5,9 @@
 - Docker (?)
 - REST Framework
 
+### Notes on Technology:
+PsostgreSQL uses psycopg3 (referred to as psycopg) for database interactions not included with django
+
 ## Tasks
 - Create test code for practicing testing
 - Develop API schema for interactions
@@ -28,3 +31,6 @@ Make a mindmap of something new when making it, see how it connects
 - [ ] look into using either google books or open library for search
 - [ ] make dummy data of books, allow saving to database if dummy data doesn't already exist when a user saves the book/likes/rates (don't want to use api calls for every interaction)
 - [ ] make specific views for homepage, book search api, chatbot
+
+### lower priority to do:
+- [ ] psycopg2 is marked in the DATABASES engine area for settings, look into psycogp3
