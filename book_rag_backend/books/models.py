@@ -45,6 +45,7 @@ class Author(models.Model):
     name = models.CharField(max_length=200)
     open_library_key = models.CharField(max_length=50, primary_key=True)
     bio = models.TextField(null=True, blank=True)
+    birth_date = models.CharField(max_length=100, null=True, blank=True)
 
 # author-book many to many connector model
 # fields of
