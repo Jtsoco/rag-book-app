@@ -21,8 +21,8 @@ Make a mindmap of something new when making it, see how it connects
 
 ## Immediate to Do:
 
-- [ ] integrate PostgreSQL to be used first
-- [ ] double check if I need to use a custom user type (i don't think so)
+- [x] integrate PostgreSQL to be used first
+- [x] double check if I need to use a custom user type (i don't think so)
 - [ ] make apps for models
 - [ ] make authentication login/logout for django
 - [ ] make api views for things like books
@@ -35,3 +35,17 @@ Make a mindmap of something new when making it, see how it connects
 ### lower priority to do:
 - [ ] psycopg2 is marked in the DATABASES engine area for settings, look into psycogp3
 - [ ] use different credentials for .env when using a production server, for every variable
+
+
+# OpenLibrary Notes
+
+<!-- Open library provides data dumps, all info on the current data is only 12.9 gigabytes
+Given this, pull only fantasy/sci-fi/horror/speculative fiction entries from it and their authors to save on data size. -->
+Actually, just take open library search, integrate it, and when a page is clicked, attempt to retrieve info from my database first. if it doesn't exist, call open library to get meta data, get it and save it to db, then provide info to the user
+
+Search: Open Library query
+Individual book page: check my db first, if not there open library data request, save the data
+
+If a user rating/bookshelf model exists, then it will have a corresponding entry in the database. So any info that needs to be passed to the chatbot based on user data will exist and be available.
+
+also cache author models the same way, when a book or an author is clicked
