@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 # book model, modified from original schema to match open libraries api better, but has fewer fields, built from the bulk data handed out by their site and the open library api documentation. instead of being a data json field, i'm going to make a specific field for each piece of data that i want to use
 from django.conf import settings
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # book model
 
@@ -31,8 +32,8 @@ class Book(models.Model):
 class BookshelfBook(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    enjoyment_rating = models.IntegerField(null=True, blank=True, max=5, min=0)
-    literary_rating = models.IntegerField(null=True, blank=True, max=5, min=0)
+    enjoyment_rating = models.IntegerField(null=True, blank=True, validators=[MinValueValidator(0), MaxValueValidator(5)])
+    literary_rating = models.IntegerField(null=True, blank=True, validators=[MinValueValidator(0), MaxValueValidator(5)])
 
 # author model
 # fields of
