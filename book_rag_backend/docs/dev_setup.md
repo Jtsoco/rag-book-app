@@ -1,4 +1,6 @@
-### Running a dev server
+# Setup
+
+## Running a dev server
 
 ```console
 <!-- create a venv -->
