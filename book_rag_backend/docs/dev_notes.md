@@ -25,7 +25,7 @@ Make a mindmap of something new when making it, see how it connects
 - [x] double check if I need to use a custom user type (i don't think so)
 - [x] make apps for models
   - [x] Books app
-  - [ ] Chatbot app
+  - [x] Chatbot app
   - [x] Api app
 - [ ] make authentication login/logout for django
 - [ ] make api views for things like books
@@ -40,6 +40,7 @@ Make a mindmap of something new when making it, see how it connects
 ### lower priority to do:
 - [ ] psycopg2 is marked in the DATABASES engine area for settings, look into psycogp3
 - [ ] use different credentials for .env when using a production server, for every variable
+- [ ] edit the models diagrams to better mimic the edits to the modesl in books
 
 
 # OpenLibrary Notes
@@ -54,3 +55,7 @@ Individual book page: check my db first, if not there open library data request,
 If a user rating/bookshelf model exists, then it will have a corresponding entry in the database. So any info that needs to be passed to the chatbot based on user data will exist and be available.
 
 also cache author models the same way, when a book or an author is clicked
+
+
+Open library uses /works/OL*** and /authors/OL*** as keys, consider either removing the front and using as is, or keeping as whole and partly using keys in determining the url path
+for now, going with latter of keeping it in the key

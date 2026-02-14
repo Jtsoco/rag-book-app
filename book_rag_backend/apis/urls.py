@@ -3,5 +3,7 @@ from django.urls import path, include
 
 from apis.views import BookAPIView
 urlpatterns = [
-    path('book/<str:pk>/', BookAPIView.as_view(), name='book-detail'),
+    # path('book/<str:pk>/', BookAPIView.as_view(), name='book-detail'),
+    path('book/works/<str:pk>/', BookAPIView.as_view(), name='book-detail'),
+    # path('book/authors/<str:pk>/', BookAPIView.as_view(), name='author-detail'),
 ]

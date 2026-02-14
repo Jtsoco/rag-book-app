@@ -12,7 +12,9 @@ class Book(models.Model):
     open_library_key = models.CharField(max_length=50, primary_key=True)
     description = models.TextField(null=True, blank=True)
     cover_id = models.IntegerField(null=True, blank=True)
-    isbn = models.CharField(max_length=13, null=True, blank=True)
+    open_library_url = models.URLField(max_length=200, null=True, blank=True)
+    # isbn = models.CharField(max_length=13, null=True, blank=True)
+    # isbn is for a specific version, but i'm using the open library key for works as a whole instead, so not a single isbn will be used for each book therefore no need for the field as of now
 
 # fields of
 # title

@@ -1,4 +1,5 @@
 from django.http import HttpResponse, JsonResponse
+from books.models import Book, Author
 
 def fetch_from_open_library(model, pk):
     # this will retrieve information from open library based on model type and pk, returning data that will be used to create the object
@@ -15,3 +16,13 @@ def fetch_from_open_library(model, pk):
 # name
 # bio is a dictionary with a value field inside, and a type like /type/text
 # photos, an array of integers that can be used to get
+def fetch_from_open_library_test(model, pk):
+    if model == Book:
+        # return generic data
+        pass
+    elif model == Author:
+        # return generic data
+        pass
+    else:
+        # raise error improper model
+        pass
