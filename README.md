@@ -7,8 +7,8 @@ A book app project with the goal of incorporating a Retrieval Augmented Generati
 ## Backend
 
 [Documentation](book_rag_backend/docs)
-[Dev Notes](book_rag_backend/docs/dev_notes)
-[Dev Setup](book_rag_backend/docs/dev_setup)
+[Dev Notes](book_rag_backend/docs/dev_notes.md)
+[Dev Setup](book_rag_backend/docs/dev_setup.md)
 
 Using:
 - Django
