@@ -1,25 +1,38 @@
 # Development Notes
 
-## Technologies to Use
+- [Technologies to use](#technologies-to-use)
+- [Notes on Technology](#notes-on-technology)
+- [Tasks](#tasks)
+- [Considerations](#considerations)
+- [Immediate to Do](#immediate-to-do)
+- [lower priority to do](#lower-priority-to-do)
+- [OpenLibrary notes](#openlibrary-notes)
+
+## Technologies to use
+
 - PostgreSQL
 - Docker (?)
 - REST Framework
 
-### Notes on Technology:
+### Notes on Technology
+
 PsostgreSQL uses psycopg3 (referred to as psycopg) for database interactions not included with django
 
 ## Tasks
+
 - Create test code for practicing testing
 - Develop API schema for interactions
 
 ## Considerations
+
 - Consider using Celery to handle async tasks. For testing the API chatbot, it's not needed yet, but with multiple users, async handling for fetching data from the database, utilizing it, and sending it to the chatbot takes time.
 
 ## Remember
+
 When I feel friction, or something feels hard, stop, be present, and learn. If something is hard, or feels unintuitive, it doesn't fit into the pattern I know, or I lack information. It's time to targeted learn then, compare what i was working on to other's code, look up tutorials with similar things I can apply, look at docs, use AI too search for similar things to save time in searching. Take a moment, be present, and learn, and remember, I need to take what is unintuitive and learn its pattern, how it connects to what I know.
 Make a mindmap of something new when making it, see how it connects
 
-## Immediate to Do:
+## Immediate to Do
 
 - [x] integrate PostgreSQL to be used first
 - [x] double check if I need to use a custom user type (i don't think so)
@@ -30,6 +43,13 @@ Make a mindmap of something new when making it, see how it connects
 - [ ] make authentication login/logout for django
 - [ ] make api views for things like books
   - [ ] book and author singleton view, with retrieval from open library when nonexistent and saving to database
+    - [x] mixins to allow async api retrieval
+    - [ ] integrate mixins into API View Class
+    - [ ] test code for create and retrieval using view
+      - [ ] retrieves normally when in database
+      - [ ] retrieves dummy data when not in database, creates and adds and returns data, mocking the method to not use real one
+      - [ ] async test, make separate test file that doesn't normally run with all tests, only when explicitely run (due to async api calls with open library)
+
   - [ ] search that uses openapi library batch.json search
 - [ ] make schema for chatbot api
 - [ ] integrate it like in my test app i did
@@ -37,7 +57,8 @@ Make a mindmap of something new when making it, see how it connects
 - [ ] make dummy data of books, allow saving to database if dummy data doesn't already exist when a user saves the book/likes/rates (don't want to use api calls for every interaction)
 - [ ] make specific views for homepage, book search api, chatbot
 
-### lower priority to do:
+### lower priority to do
+
 - [ ] psycopg2 is marked in the DATABASES engine area for settings, look into psycogp3
 - [ ] use different credentials for .env when using a production server, for every variable
 - [ ] edit the models diagrams to better mimic the edits to the modesl in books
