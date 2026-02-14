@@ -5,6 +5,8 @@ from rest_framework import generics
 
 from books.models import Book
 from serializers import BookSerializer
+from services import fetch_from_open_library
+from django.http import Http404
 
 
 class BookAPIView(generics.RetrieveAPIView):
@@ -17,11 +19,20 @@ class BookAPIView(generics.RetrieveAPIView):
     # failing that, it will return a 404 error
 
 class OpenLibraryFetchIfNotFoundMixin:
+    # make sure views using this are async compatible
     # this will be used for author and book views
     def get_object(self):
 
         pk = self.kwargs.get(self.lookup_field)
         model = self.get_queryset().model
-        # try:
-        #     return model.objects.get(**{self.lookup_field: pk})
-        # except model.DoesNotExist:
+        try:
+            return model.objects.get(**{self.lookup_field: pk})
+        except model.DoesNotExist:
+            # attempt to fetch from open library
+            data = fetch_from_open_library(model, pk)
+            if data:
+                obj = model.objects.create(**data)
+                return obj
+            else:
+                # raise 404 as it doesn't exist and can't be reached
+                raise Http404

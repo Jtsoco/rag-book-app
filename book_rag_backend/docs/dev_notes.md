@@ -23,9 +23,14 @@ Make a mindmap of something new when making it, see how it connects
 
 - [x] integrate PostgreSQL to be used first
 - [x] double check if I need to use a custom user type (i don't think so)
-- [ ] make apps for models
+- [x] make apps for models
+  - [x] Books app
+  - [ ] Chatbot app
+  - [x] Api app
 - [ ] make authentication login/logout for django
 - [ ] make api views for things like books
+  - [ ] book and author singleton view, with retrieval from open library when nonexistent and saving to database
+  - [ ] search that uses openapi library batch.json search
 - [ ] make schema for chatbot api
 - [ ] integrate it like in my test app i did
 - [ ] look into using either google books or open library for search

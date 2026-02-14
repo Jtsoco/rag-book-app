@@ -1,7 +1,7 @@
+from django.http import HttpResponse, JsonResponse
 
 def fetch_from_open_library(model, pk):
     # this will retrieve information from open library based on model type and pk, returning data that will be used to create the object
-    import requests
 
 
 # to get a specific work, this kind of structure:
