@@ -15,6 +15,7 @@
 - PostgreSQL
 - Docker (?)
 - REST Framework
+- Open Library API/Data
 
 ### Notes on Technology
 
@@ -55,7 +56,7 @@ Make a mindmap of something new when making it, see how it connects
   - [ ] search that uses openapi library batch.json search
 - [ ] make schema for chatbot api
 - [ ] integrate it like in my test app i did
-- [ ] look into using either google books or open library for search
+- [x] look into using either google books or open library for search
 - [ ] make dummy data of books, allow saving to database if dummy data doesn't already exist when a user saves the book/likes/rates (don't want to use api calls for every interaction)
 - [ ] make specific views for homepage, book search api, chatbot
 
@@ -63,7 +64,7 @@ Make a mindmap of something new when making it, see how it connects
 
 - [ ] psycopg2 is marked in the DATABASES engine area for settings, look into psycogp3
 - [ ] use different credentials for .env when using a production server, for every variable
-- [ ] edit the models diagrams to better mimic the edits to the modesl in books
+- [x] edit the models diagrams to better mimic the edits to the modesl in books
 
 ## OpenLibrary Notes
 
@@ -79,8 +80,8 @@ If a user rating/bookshelf model exists, then it will have a corresponding entry
 also cache author models the same way, when a book or an author is clicked
 
 
-Open library uses /works/OL*** and /authors/OL*** as keys, consider either removing the front and using as is, or keeping as whole and partly using keys in determining the url path
-for now, going with latter of keeping it in the key
+Open library uses /works/OL*** and /authors/OL*** as keys, consider either removing the front and saving to model like that, or keeping as whole and partly using keys in determining the url path.
+For now, going with latter of keeping it in the key
 
 ## Database Diagram
 
