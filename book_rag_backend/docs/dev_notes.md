@@ -8,6 +8,8 @@
 - [lower priority to do](#lower-priority-to-do)
 - [OpenLibrary notes](#openlibrary-notes)
 
+- [Database Diagram](#database-diagram)
+
 ## Technologies to use
 
 - PostgreSQL
@@ -63,8 +65,7 @@ Make a mindmap of something new when making it, see how it connects
 - [ ] use different credentials for .env when using a production server, for every variable
 - [ ] edit the models diagrams to better mimic the edits to the modesl in books
 
-
-# OpenLibrary Notes
+## OpenLibrary Notes
 
 <!-- Open library provides data dumps, all info on the current data is only 12.9 gigabytes
 Given this, pull only fantasy/sci-fi/horror/speculative fiction entries from it and their authors to save on data size. -->
@@ -80,3 +81,15 @@ also cache author models the same way, when a book or an author is clicked
 
 Open library uses /works/OL*** and /authors/OL*** as keys, consider either removing the front and using as is, or keeping as whole and partly using keys in determining the url path
 for now, going with latter of keeping it in the key
+
+## Database Diagram
+
+Diagrams are prepared using the site draw.io
+
+Current Models:
+
+![Current models and notes](./diagrams/current_models.png)
+
+Future Model Considerations:
+
+![Future models and notes](./diagrams/future_model_notes.png)

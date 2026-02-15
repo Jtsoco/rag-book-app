@@ -12,7 +12,7 @@ class Book(models.Model):
     open_library_key = models.CharField(max_length=50, primary_key=True)
     description = models.TextField(null=True, blank=True)
     cover_id = models.IntegerField(null=True, blank=True)
-    open_library_url = models.URLField(max_length=200, null=True, blank=True)
+    # open_library_url = models.URLField(max_length=200, null=True, blank=True) with the key, i can easily reconstruct the url, so no need to store it
     # isbn = models.CharField(max_length=13, null=True, blank=True)
     # isbn is for a specific version, but i'm using the open library key for works as a whole instead, so not a single isbn will be used for each book therefore no need for the field as of now
 
@@ -62,8 +62,8 @@ class AuthorBook(models.Model):
 # subject model
 
 class Subject(models.Model):
-    name = models.CharField(max_length=200, primary_key=True)
-    # there is no library key for subjects, so just use name as primary key, as they will all be unique
+    name = models.CharField(max_length=200)
+    # there is no library key for subjects, so use int as primary key to save data, and then just look up name through connection
 
 # subject-book many to many connector model
 
