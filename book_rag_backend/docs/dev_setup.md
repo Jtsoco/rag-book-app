@@ -30,6 +30,11 @@ The django settings should be this. However, if you decide to use a different na
 ```python
 # port is the default postgres port, using generic user and password for the dev environment
 # store your username and password, host and port in a .env
+
+# make sure to use dotenv library, and have the following imports at the top of the file
+# from dotenv import load_dotenv
+# import os
+
 load_dotenv()
 DATABASES = {
     "default": {
