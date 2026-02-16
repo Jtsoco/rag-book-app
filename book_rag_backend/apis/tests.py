@@ -46,15 +46,15 @@ class BookAPIViewTest(APITestCase):
     def test_retrieve_non_existing_book_success(self, mock_fetch):
         mock_fetch.return_value = {
             'title': 'Fetched Book',
-            'key': '/works/OL456',
+            'key': '/works/OL45804W',
             'description': 'Fetched description',
             'covers': [12345]
         }
-        url = reverse('book-detail', kwargs={'pk': 'OL456'})  # Generates '/api/book/works/OL456/'
+        url = reverse('book-detail', kwargs={'pk': 'OL45804W'})  # Generates '/api/book/works/OL456/'
         response = self.client.get(url)
         print(response)
         self.assertEqual(response.status_code, 200)
-        book = Book.objects.get(open_library_key='/works/OL456')
+        book = Book.objects.get(open_library_key='/works/OL45804W')
         self.assertEqual(book.title, 'Fetched Book')
         serializer = BookSerializer(book)
         self.assertEqual(response.data, serializer.data)

@@ -44,6 +44,7 @@ class OpenLibraryFetchIfNotFoundMixin:
             return obj
         except model.DoesNotExist:
             # attempt to fetch from open library
+            print('fetching from open library')
             data = fetch_from_open_library(full_key)
             # need to prepare/serialize the data depending on the model type, as the data from open library will be different based on the model type, and often have more data than I would want to store in the database so I need to extract the relevant data and format it correctly
             if data:

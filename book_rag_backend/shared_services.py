@@ -26,7 +26,7 @@ def to_open_library(url, query_params={}):
     # options are empty by default
     load_dotenv()
     # this will send to open library with the necessary headers and options to retrieve the data
-    base_url = "https://openlibrary.org/"
+    base_url = "https://openlibrary.org"
     end_url = '.json'
     full_url = base_url + url + end_url
     headers = {
