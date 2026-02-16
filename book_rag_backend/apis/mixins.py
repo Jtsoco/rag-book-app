@@ -69,7 +69,6 @@ class OpenLibraryFetchIfNotFoundMixin:
                 'open_library_key': open_library_key,
                 'description': description,
                 'cover_id': cover_id,
-                'open_library_url': open_library_url
             }
         elif model == Author:
             name = data.get('name')
