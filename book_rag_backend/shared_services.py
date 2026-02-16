@@ -46,8 +46,10 @@ query_params = {
     "limit": 10
 }
 
-response = to_open_library(url, query_params)
-print(response)
+# response = to_open_library(url, query_params)
+# response = to_open_library('works/OL45804W')
+# response = to_open_library('authors/OL23919A')
+# print(response)
 
 
 
