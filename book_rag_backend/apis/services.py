@@ -1,8 +1,17 @@
 from django.http import HttpResponse, JsonResponse
 from books.models import Book, Author
+from shared_services import fetch_from_open_library
 
-def fetch_from_open_library(model, pk):
+def fetch_from_open_library(pk):
     # this will retrieve information from open library based on model type and pk, returning data that will be used to create the object
+    response = fetch_from_open_library(pk)
+    if response.status_code == 200:
+        data = response.json()
+        return data
+    else:
+        return None
+
+
 
 
 # to get a specific work, this kind of structure:

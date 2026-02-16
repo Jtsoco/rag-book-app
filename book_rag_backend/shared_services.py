@@ -36,7 +36,7 @@ def to_open_library(url, query_params={}):
     print(f"Sending request to Open Library API at {full_url} with query params: {query_params}")
     response = requests.get(full_url, headers=headers, params=query_params)
     print(f"Received response from Open Library API with status code: {response.status_code}")
-    return response.json()
+    return response
 
 
 url = 'search'
