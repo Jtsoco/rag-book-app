@@ -62,7 +62,6 @@ class OpenLibraryFetchIfNotFoundMixin:
             description = data.get('description', '')
             # if no cover id, access a None
             cover_id = data.get('covers', [None])[0]
-            open_library_url = f"https://openlibrary.org{data.get('key')}"
             # need to make it so it looks at authors also, and creates a connection to the AuthorBook model
             return {
                 'title': title,
