@@ -1,5 +1,5 @@
 from django.http import Http404
-from .services import fetch_from_open_library
+from apis.services import fetch_from_open_library
 # from asgiref.sync import sync_to_async
 from books.models import Book, Author
 from rest_framework.response import Response
