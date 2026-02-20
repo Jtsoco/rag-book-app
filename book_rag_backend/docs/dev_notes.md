@@ -46,11 +46,13 @@ Make a mindmap of something new when making it, see how it connects
 - [ ] make authentication login/logout for django
 - [ ] make api views for things like books
   - [ ] book and author singleton view, with retrieval from open library when nonexistent and saving to database
-    - [x] mixins to allow async api retrieval
-    - [ ] integrate mixins into API View Class
-    - [ ] test code for create and retrieval using view
-      - [ ] retrieves normally when in database
-      - [ ] retrieves dummy data when not in database, creates and adds and returns data, mocking the method to not use real one
+    - [x] mixins to allow api retrieval
+    - [x] integrate mixins into API View Class
+    - [ ] make an actual Async version fo the class
+    - [ ] error handling
+    - [x] test code for create and retrieval using view
+      - [x] retrieves normally when in database
+      - [x] retrieves dummy data when not in database, creates and adds and returns data, mocking the method to not use real one
       - [ ] async test, make separate test file that doesn't normally run with all tests, only when explicitely run (due to async api calls with open library)
 
   - [ ] search that uses openapi library batch.json search
