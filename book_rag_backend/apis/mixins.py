@@ -33,20 +33,21 @@ class OpenLibraryFetchIfNotFoundMixin:
         print('primary key from url:', primaryk)
         model = self.get_queryset().model
         obj = None
+
         if model == Book:
             full_key = f"/works/{primaryk}"
-            obj = self.try_to_get_object(Book, full_key)
 
         elif model == Author:
             full_key = f"/authors/{primaryk}"
-            obj = self.try_to_get_object(Author, full_key)
 
+        obj = self.try_to_get_object(model, full_key)
         if obj:
             return obj
         else:
             raise Http404("Object not found and could not be fetched from Open Library")
 
     def try_to_get_object(self, model, full_key):
+        # returning none means this method can be reused when a book is trying to get authors to add to the db when first created
         try:
             # try to get the object from database first using the primarykey
             obj = model.objects.get(pk=full_key)
@@ -73,6 +74,7 @@ class OpenLibraryFetchIfNotFoundMixin:
         return obj
 
     def link_authors_to_book(self, data, book_obj):
+        # go through authors, if already in db add to book many to many relationship, if not try to fetch, and add to book then
         authors_data = data.get('authors', [])
         for author in authors_data:
             author_key = author.get('author', {}).get('key')
@@ -82,6 +84,7 @@ class OpenLibraryFetchIfNotFoundMixin:
                     book_obj.authors.add(obj)
 
     def serialize_data(self, data, model):
+        # only purpose is to prepare data to be saved to database
         if model == Book:
             title = data.get('title')
             open_library_key = data.get('key')

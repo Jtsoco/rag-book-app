@@ -48,11 +48,20 @@ Make a mindmap of something new when making it, see how it connects
   - [ ] book and author singleton view, with retrieval from open library when nonexistent and saving to database
     - [x] mixins to allow api retrieval
     - [x] integrate mixins into API View Class
+    - [ ] author works pagination cache model works, to compensate for lack of total database data
+      - [ ] allows selection of how many works for pagination
+      - [ ] caches only if works exist in open library response
+      - [ ] will attempt to give db saved pagination first
     - [ ] make an actual Async version fo the class
     - [ ] error handling
     - [x] test code for create and retrieval using view
       - [x] retrieves normally when in database
       - [x] retrieves dummy data when not in database, creates and adds and returns data, mocking the method to not use real one
+      - [ ] gets author data when new book is added if author doesn't exist
+      - [ ] uses previously existing author data when new book is added if author exists
+      - [ ] when author is created by itself, doesn't create book
+      - [ ] fetches author from db when exists, fetches from api when doesn't
+      - [ ] author book pagination view
       - [ ] async test, make separate test file that doesn't normally run with all tests, only when explicitely run (due to async api calls with open library)
 
   - [ ] search that uses openapi library batch.json search
