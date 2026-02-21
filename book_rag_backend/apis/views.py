@@ -4,7 +4,7 @@ from django.shortcuts import render
 from rest_framework import generics
 
 from books.models import Book, Author
-from .serializers import BookSerializer
+from .serializers import BookSerializer, AuthorSerializer
 from .services import fetch_from_open_library
 from django.http import Http404
 from .mixins import OpenLibraryFetchIfNotFoundMixin, AsyncAPIRetrieveModeltMixin
@@ -19,3 +19,7 @@ class BookAPIView(OpenLibraryFetchIfNotFoundMixin, AsyncAPIRetrieveModeltMixin, 
     # this method will retrieve the book based on the open library key passed in the url
     # if the book is not found, it will attempt to fetch the data from open library, store it in the database, and then return it
     # failing that, it will return a 404 error
+
+class AuthorAPIView(OpenLibraryFetchIfNotFoundMixin, AsyncAPIRetrieveModeltMixin, generics.RetrieveAPIView):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
