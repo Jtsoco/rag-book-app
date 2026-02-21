@@ -1,5 +1,5 @@
 from django.http import Http404
-from apis.services import fetch_from_open_library
+from apis.services import fetch_from_open_library, search_open_library
 # from asgiref.sync import sync_to_async
 from books.models import Book, Author
 from rest_framework.response import Response
@@ -110,3 +110,63 @@ class OpenLibraryFetchIfNotFoundMixin:
                 'bio': bio,
                 'birth_date': birth_date
             }
+
+
+class OpenLibrarySearchMixin:
+
+    def get(self, request, format=None):
+        query = request.query_params.get('q', '')
+        page = request.query_params.get('page', 1)
+        limit = request.query_params.get('limit', 50)
+        response_data = self.get_search(query=query, page=page, limit=limit)
+        return Response(response_data)
+
+    def get_search(self, query, page=1, limit=50):
+        # meant to be used with other
+        raise NotImplementedError("Subclasses must implement get_search method")
+
+    def remove_duplicate_keys(self, data):
+        # this is meant to be used for search results, as I only want to save works, not editions, so if there are multiple editions with the same work key, I want to remove the duplicates
+        seen_keys = set()
+        unique_data = []
+        for work in data.get('docs', []):
+            work_key = work.get('key')
+            if work_key and (work_key not in seen_keys):
+                seen_keys.add(work_key)
+                work_data = self.serialize_search_data(work)
+                unique_data.append(work_data)
+        return unique_data
+
+
+class OpenLibraryBookSearchMixin(OpenLibrarySearchMixin):
+    def get_search(self, query, page=1, limit=50):
+        response_data = search_open_library(url='search', query_params={'q': query, 'page': page, 'limit': limit}, search=True)
+        unique_data = self.remove_duplicate_keys(response_data)
+        return_data = {
+            'numFound': response_data.get('numFound', 0),
+            'start': response_data.get('start', 0),
+            'page': page,
+            'showin_unique': len(unique_data),
+            'retrieved': limit,
+            'docs': unique_data,
+        }
+        return Response(return_data)
+
+
+
+    def serialize_search_data(self, data):
+        # this is meant to be used for search results, as the data from search results is different than the data from the works endpoint, so I need to extract the relevant data and format it correctly
+        title = data.get('title')
+        open_library_key = data.get('key')
+        description = data.get('description', '')
+        cover_id = data.get('cover_i', None)
+        author_key = data.get('author_key', [])
+        author_name = data.get('author_name', [])
+        return {
+            'title': title,
+            'open_library_key': open_library_key,
+            'description': description,
+            'cover_id': cover_id,
+            'author_key': author_key,
+            'author_name': author_name,
+        }

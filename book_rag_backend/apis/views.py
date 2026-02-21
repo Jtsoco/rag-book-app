@@ -7,7 +7,7 @@ from books.models import Book, Author
 from .serializers import BookSerializer, AuthorSerializer
 from .services import fetch_from_open_library
 from django.http import Http404
-from .mixins import OpenLibraryFetchIfNotFoundMixin, AsyncAPIRetrieveModeltMixin
+from .mixins import OpenLibraryFetchIfNotFoundMixin, AsyncAPIRetrieveModeltMixin, OpenLibraryBookSearchMixin
 
 
 class BookAPIView(OpenLibraryFetchIfNotFoundMixin, AsyncAPIRetrieveModeltMixin, generics.RetrieveAPIView):
@@ -23,3 +23,8 @@ class BookAPIView(OpenLibraryFetchIfNotFoundMixin, AsyncAPIRetrieveModeltMixin, 
 class AuthorAPIView(OpenLibraryFetchIfNotFoundMixin, AsyncAPIRetrieveModeltMixin, generics.RetrieveAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
+
+class BookSearchAPIView(OpenLibraryBookSearchMixin, generics.APIView):
+        # for now, just a basic search, plus page, with a limit of 50
+        # and remove duplicate works, as i'm not saving editions, just works, so any edition that comes up with the same work key will be considered a duplicate and removed from the results
+        # so a query like /search?q=*search_term*&page=*page_number&limit=50 will be used

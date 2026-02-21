@@ -57,10 +57,10 @@ Make a mindmap of something new when making it, see how it connects
     - [x] test code for create and retrieval using view
       - [x] retrieves normally when in database
       - [x] retrieves dummy data when not in database, creates and adds and returns data, mocking the method to not use real one
-      - [ ] gets author data when new book is added if author doesn't exist
-      - [ ] uses previously existing author data when new book is added if author exists
-      - [ ] when author is created by itself, doesn't create book
-      - [ ] fetches author from db when exists, fetches from api when doesn't
+      - [x] gets author data when new book is added if author doesn't exist
+      - [x] uses previously existing author data when new book is added if author exists
+      - [x] when author is created by itself, doesn't create book
+      - [x] fetches author from db when exists, fetches from api when doesn't
       - [ ] author book pagination view
       - [ ] async test, make separate test file that doesn't normally run with all tests, only when explicitely run (due to async api calls with open library)
 

@@ -22,12 +22,16 @@ query_params = {
                 }
 """
 
-def to_open_library(url, query_params={}):
+def to_open_library(url, query_params={},search=False):
     # options are empty by default
     load_dotenv()
     # this will send to open library with the necessary headers and options to retrieve the data
-    base_url = "https://openlibrary.org"
-    end_url = '.json'
+    if search:
+        base_url = "https://openlibrary.org/search.json"
+        end_url = ''
+    else:
+        base_url = "https://openlibrary.org"
+        end_url = '.json'
     full_url = base_url + url + end_url
     headers = {
         "User-Agent": f"{os.getenv('MYAPPNAME')} ({os.getenv('MYEMAIL')})"
@@ -37,6 +41,7 @@ def to_open_library(url, query_params={}):
     response = requests.get(full_url, headers=headers, params=query_params)
     print(f"Received response from Open Library API with status code: {response.status_code}")
     return response
+
 
 
 url = 'search'
