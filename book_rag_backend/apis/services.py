@@ -17,7 +17,7 @@ def search_open_library(query, page=1, limit=50):
         'page': page,
         'limit': limit
     }
-    response = to_open_library('search', query_params=params, search=True)
+    response = to_open_library('search', query_params=params)
     if response.status_code == 200:
         data = response.json()
         return data

@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from rest_framework.views import APIView
+# import apiview class
+
 
 # Create your views here.
 from rest_framework import generics
@@ -24,7 +27,13 @@ class AuthorAPIView(OpenLibraryFetchIfNotFoundMixin, AsyncAPIRetrieveModeltMixin
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
 
-class BookSearchAPIView(OpenLibraryBookSearchMixin, generics.APIView):
+
+class BookSearchAPIView(OpenLibraryBookSearchMixin, APIView):
+
+    ''' this view will handle searching for books based on a query, and return a list of books that match the query, with pagination support, and also remove duplicate works from the results, as I only want to save works, not editions '''
+    pass
+
+
         # for now, just a basic search, plus page, with a limit of 50
         # and remove duplicate works, as i'm not saving editions, just works, so any edition that comes up with the same work key will be considered a duplicate and removed from the results
         # so a query like /search?q=*search_term*&page=*page_number&limit=50 will be used

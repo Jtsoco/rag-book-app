@@ -30,7 +30,6 @@ class OpenLibraryFetchIfNotFoundMixin:
         # so the primary key in the url is actually the latter half of the primary key, so here append either works or authors to the front to keep consistency with open library keys
 
         primaryk = self.kwargs.get(self.lookup_field)
-        print('primary key from url:', primaryk)
         model = self.get_queryset().model
         obj = None
 
@@ -54,7 +53,6 @@ class OpenLibraryFetchIfNotFoundMixin:
             return obj
         except model.DoesNotExist:
             # attempt to fetch from open library
-            print('fetching from open library')
             # TODO error handling here
             data = fetch_from_open_library(full_key)
             # need to prepare/serialize the data depending on the model type, as the data from open library will be different based on the model type, and often have more data than I would want to store in the database so I need to extract the relevant data and format it correctly
@@ -114,7 +112,10 @@ class OpenLibraryFetchIfNotFoundMixin:
 
 class OpenLibrarySearchMixin:
 
-    def get(self, request, format=None):
+    def get(self, request, *args, **kwargs):
+        # query = self.kwargs.get('q', '')
+        # page = self.kwargs.get('page', 1)
+        # limit = self.kwargs.get('limit', 50)
         query = request.query_params.get('q', '')
         page = request.query_params.get('page', 1)
         limit = request.query_params.get('limit', 50)
@@ -140,7 +141,7 @@ class OpenLibrarySearchMixin:
 
 class OpenLibraryBookSearchMixin(OpenLibrarySearchMixin):
     def get_search(self, query, page=1, limit=50):
-        response_data = search_open_library(url='search', query_params={'q': query, 'page': page, 'limit': limit}, search=True)
+        response_data = search_open_library(query=query, page=page, limit=limit)
         unique_data = self.remove_duplicate_keys(response_data)
         return_data = {
             'numFound': response_data.get('numFound', 0),
@@ -150,7 +151,7 @@ class OpenLibraryBookSearchMixin(OpenLibrarySearchMixin):
             'retrieved': limit,
             'docs': unique_data,
         }
-        return Response(return_data)
+        return return_data
 
 
 
