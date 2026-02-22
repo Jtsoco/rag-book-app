@@ -1,5 +1,5 @@
 from django.http import Http404
-from apis.services import fetch_from_open_library
+from apis.services import fetch_from_open_library, search_open_library
 # from asgiref.sync import sync_to_async
 from books.models import Book, Author
 from rest_framework.response import Response
@@ -30,21 +30,30 @@ class OpenLibraryFetchIfNotFoundMixin:
         # so the primary key in the url is actually the latter half of the primary key, so here append either works or authors to the front to keep consistency with open library keys
 
         primaryk = self.kwargs.get(self.lookup_field)
-        print('primary key from url:', primaryk)
         model = self.get_queryset().model
+        obj = None
+
         if model == Book:
             full_key = f"/works/{primaryk}"
 
         elif model == Author:
             full_key = f"/authors/{primaryk}"
-        print('full key to search with:', full_key)
+
+        obj = self.try_to_get_object(model, full_key)
+        if obj:
+            return obj
+        else:
+            raise Http404("Object not found and could not be fetched from Open Library")
+
+    def try_to_get_object(self, model, full_key):
+        # returning none means this method can be reused when a book is trying to get authors to add to the db when first created
         try:
             # try to get the object from database first using the primarykey
             obj = model.objects.get(pk=full_key)
             return obj
         except model.DoesNotExist:
             # attempt to fetch from open library
-            print('fetching from open library')
+            # TODO error handling here
             data = fetch_from_open_library(full_key)
             # need to prepare/serialize the data depending on the model type, as the data from open library will be different based on the model type, and often have more data than I would want to store in the database so I need to extract the relevant data and format it correctly
             if data:
@@ -53,15 +62,27 @@ class OpenLibraryFetchIfNotFoundMixin:
                 return obj
             else:
                 # raise 404 as it doesn't exist and can't be reached
-                raise Http404
+                return None
 
     def create_object(self, data, model):
         serialized = self.serialize_data(data, model)
         obj = model.objects.create(**serialized)
+        if model == Book:
+            self.link_authors_to_book(data, obj)
         return obj
 
-    def serialize_data(self, data, model):
+    def link_authors_to_book(self, data, book_obj):
+        # go through authors, if already in db add to book many to many relationship, if not try to fetch, and add to book then
+        authors_data = data.get('authors', [])
+        for author in authors_data:
+            author_key = author.get('author', {}).get('key')
+            if author_key:
+                obj = self.try_to_get_object(Author, author_key)  # This will fetch and create the author if it doesn't exist
+                if obj:
+                    book_obj.authors.add(obj)
 
+    def serialize_data(self, data, model):
+        # only purpose is to prepare data to be saved to database
         if model == Book:
             title = data.get('title')
             open_library_key = data.get('key')
@@ -87,3 +108,74 @@ class OpenLibraryFetchIfNotFoundMixin:
                 'bio': bio,
                 'birth_date': birth_date
             }
+
+
+class OpenLibrarySearchMixin:
+
+    def get(self, request, *args, **kwargs):
+        # query = self.kwargs.get('q', '')
+        # page = self.kwargs.get('page', 1)
+        # limit = self.kwargs.get('limit', 50)
+        query = request.query_params.get('q', '')
+        page = request.query_params.get('page', 1)
+        limit = request.query_params.get('limit', 50)
+        response_data = self.get_search(query=query, page=page, limit=limit)
+        return Response(response_data)
+
+    def get_search(self, query, page=1, limit=50):
+        # meant to be used with other
+        raise NotImplementedError("Subclasses must implement get_search method")
+
+    def remove_duplicate_keys(self, data):
+        # code in case of duplications, but there shouldn't be duplicates as works are returned by default.
+        # keeping it for now as i may use a different endpoint that may return duplicates, like editions, but in that case probably will return all duplicates anyway? keep for the moment, throw away possibly later
+        seen_keys = set()
+        unique_data = []
+        for work in data.get('docs', []):
+            work_key = work.get('key')
+            if work_key and (work_key not in seen_keys):
+                seen_keys.add(work_key)
+                work_data = self.serialize_search_data(work)
+                unique_data.append(work_data)
+        return unique_data
+
+    def format_response_data(self, data):
+        formatted = []
+        for work in data.get('docs', []):
+            work_data = self.serialize_search_data(work)
+            formatted.append(work_data)
+        return formatted
+
+
+class OpenLibraryBookSearchMixin(OpenLibrarySearchMixin):
+    def get_search(self, query, page=1, limit=50):
+        response_data = search_open_library(query=query, page=page, limit=limit)
+        formatted_data = self.format_response_data(response_data)
+        return_data = {
+            'numFound': response_data.get('numFound', 0),
+            'start': response_data.get('start', 0),
+            'page': page,
+            'showin_unique': len(formatted_data),
+            'retrieved': limit,
+            'docs': formatted_data,
+        }
+        return return_data
+
+
+
+    def serialize_search_data(self, data):
+        # this is meant to be used for search results, as the data from search results is different than the data from the works endpoint, so I need to extract the relevant data and format it correctly
+        title = data.get('title')
+        open_library_key = data.get('key')
+        description = data.get('description', '')
+        cover_id = data.get('cover_i', None)
+        author_key = data.get('author_key', [])
+        author_name = data.get('author_name', [])
+        return {
+            'title': title,
+            'open_library_key': open_library_key,
+            'description': description,
+            'cover_id': cover_id,
+            'author_key': author_key,
+            'author_name': author_name,
+        }
