@@ -127,7 +127,8 @@ class OpenLibrarySearchMixin:
         raise NotImplementedError("Subclasses must implement get_search method")
 
     def remove_duplicate_keys(self, data):
-        # this is meant to be used for search results, as I only want to save works, not editions, so if there are multiple editions with the same work key, I want to remove the duplicates
+        # code in case of duplications, but there shouldn't be duplicates as works are returned by default.
+        # keeping it for now as i may use a different endpoint that may return duplicates, like editions, but in that case probably will return all duplicates anyway? keep for the moment, throw away possibly later
         seen_keys = set()
         unique_data = []
         for work in data.get('docs', []):
@@ -138,18 +139,25 @@ class OpenLibrarySearchMixin:
                 unique_data.append(work_data)
         return unique_data
 
+    def format_response_data(self, data):
+        formatted = []
+        for work in data.get('docs', []):
+            work_data = self.serialize_search_data(work)
+            formatted.append(work_data)
+        return formatted
+
 
 class OpenLibraryBookSearchMixin(OpenLibrarySearchMixin):
     def get_search(self, query, page=1, limit=50):
         response_data = search_open_library(query=query, page=page, limit=limit)
-        unique_data = self.remove_duplicate_keys(response_data)
+        formatted_data = self.format_response_data(response_data)
         return_data = {
             'numFound': response_data.get('numFound', 0),
             'start': response_data.get('start', 0),
             'page': page,
-            'showin_unique': len(unique_data),
+            'showin_unique': len(formatted_data),
             'retrieved': limit,
-            'docs': unique_data,
+            'docs': formatted_data,
         }
         return return_data
 

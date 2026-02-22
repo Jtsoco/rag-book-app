@@ -145,6 +145,10 @@ class BookAPIViewTest(APITestCase):
         self.assertEqual(book.title, 'Fetched Book with Authors')
         self.assertEqual(book.authors.count(), 1)
 
+class AuthorAPIViewTest(APITestCase):
+    def setUp(self):
+        self.client = self.client_class()
+
     @patch('apis.mixins.fetch_from_open_library')
     def test_creating_author_when_non_existent(self, mock_fetch):
         def mock_side_effect(arg):
@@ -166,3 +170,27 @@ class BookAPIViewTest(APITestCase):
         author = Author.objects.get(open_library_key='/authors/OL34185A')
         self.assertEqual(author.name, 'New Fetched Author')
         self.assertEqual(author.bio, 'New fetched author bio')
+
+
+class SearchAPIViewTest(APITestCase):
+
+    def setUp(self):
+        self.client = self.client_class()
+
+    @patch('apis.mixins.search_open_library')
+    def test_search_books(self, mock_search):
+        from data_configs import unformatted_results, formatted_results
+
+        def mock_side_effect(query, page=1, limit=50):
+            return unformatted_results
+
+        mock_search.side_effect = mock_side_effect
+        url = reverse('book-search') + '?q=test&page=1&limit=10'
+        response = self.client.get(url)
+        print(response)
+        self.assertEqual(response.status_code, 200)
+        print('Response data:', response.data)
+        self.assertEqual(len(response.data.get('docs', [])), 10)
+        self.assertEqual(response.data.get('docs', [])[0].get('title'), formatted_results.get('docs', [])[0].get('title'))
+        self.assertEqual(response.data.get('docs', [])[0].get('key'), formatted_results.get('docs', [])[0].get('key'))
+        self.assertEqual(formatted_results, response.data)
