@@ -10,6 +10,8 @@
 
 - [Database Diagram](#database-diagram)
 
+- [Chatbot Development Phases](#chatbot-development-phases)
+
 ## Technologies to use
 
 - PostgreSQL
@@ -36,6 +38,14 @@ When I feel friction, or something feels hard, stop, be present, and learn. If s
 Make a mindmap of something new when making it, see how it connects
 
 ## Immediate to Do
+
+### Top to Do
+
+- [ ] Integrate chatbot API
+- [ ] RAG system development v0.1
+
+
+### Specific To Do
 
 - [x] integrate PostgreSQL to be used first
 - [x] double check if I need to use a custom user type (i don't think so)
@@ -64,7 +74,7 @@ Make a mindmap of something new when making it, see how it connects
       - [ ] author book pagination view
       - [ ] async test, make separate test file that doesn't normally run with all tests, only when explicitely run (due to async api calls with open library)
 
-  - [ ] search that uses openapi library batch.json search
+  - [x] search that uses openapi library batch.json search
 - [ ] make schema for chatbot api
 - [ ] integrate it like in my test app i did
 - [x] look into using either google books or open library for search
@@ -105,3 +115,63 @@ Current Models:
 Future Model Considerations:
 
 ![Future models and notes](./diagrams/future_model_notes.png)
+
+
+## Chatbot Development Phases
+
+### v0.1
+
+#### Only User Data
+
+Make the chatbot:
+
+- [ ] basic communication with ChatGPT
+<!-- - [ ] Conversation flow (how many queries? cach last context sent? leave that for front end?) -->
+<!-- look into conversation id again for chatgpt -->
+- [ ] implement single shot for now, query response no follow up
+- [ ] Post Json Schema
+- [ ] ChatGPT response Schema
+
+- [ ] Implement JWT verification for users
+
+- [ ] Implement View
+- [ ] If logged in, use user data, pass to gpt
+
+Search Version:
+
+- [ ] Users input keyword, open library is searched, results and user data handed to gpt for recommendation
+
+### v0.2
+
+#### Similar User Data Included
+
+- [ ] search for similar ratings for the same books from other users for liked books
+- [ ] start with >3 books from query user, keep it simple first
+- [ ] filter for users who have many liked books in common, providing books the querying user hasn't read
+- [ ] hand book rating data over as 'user data' and 'similar user data'
+
+### v0.3
+
+#### Vector Database, Embeddings
+
+- [ ] postgres pgvector
+- [ ] pgvector semantic search
+- [ ] vector embeddings to book model using descriptions + title + subjects
+- [ ] text-embedding-3-small (look into)
+
+### v0.4
+
+#### use all open library data
+
+- [ ] make a separate branch purely for this, will probably have enough data it's too expensive to host as hobby project
+- [ ] buy external drive to hold data
+- [ ] store on database in that drive, adding on vector embeddings
+- [ ] change search to use the db from it
+- [ ] write a blog post about it and what I learned
+
+
+### For all versions:
+
+- [ ] create 3-5 test user profiles, go over preferences
+- [ ] verify recommendations for each
+- [ ] store results of each version, compare when new version is done
