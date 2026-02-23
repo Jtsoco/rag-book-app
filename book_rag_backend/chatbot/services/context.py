@@ -17,7 +17,8 @@ def get_schema():
                     "genre": {"type": "string"},
                     "comment_on_book": {"type": "string"},
                 },
-                "required": ["title", "author", "comment_on_book"],
+                "required": ["title", "author", "comment_on_book", "description", "genre"],
+                "additionalProperties": False
             }
         }
 
@@ -32,6 +33,8 @@ def get_schema():
                     "books": books_parameters,
                     "assistant_reply": {"type": "string"},
                 },
+                "additionalProperties": False,
+                "required": ["assistant_reply", "books"]
             },
 
         }

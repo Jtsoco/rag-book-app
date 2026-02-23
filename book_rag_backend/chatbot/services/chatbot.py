@@ -11,7 +11,7 @@ def _get_client(api_key=None):
     if api_key is None:
         dotenv.load_dotenv()
         api_key = os.getenv("OPENAI_API_KEY")
-    return OpenAI(api_key)
+    return OpenAI(api_key=api_key)
 
 
 def ask(query, user=None, client=None):
@@ -28,7 +28,7 @@ def ask(query, user=None, client=None):
         # then build user profile, send it
         # final message specifying role: user content: query
     # response = get_book_recommendation(query, user_data)
-    processed_response = process_reply(response)
+    processed_response = process_reply(response.output_text)
     return processed_response
 
 
@@ -53,7 +53,7 @@ def _format_query(query, user_data, tools=[], model='gpt-5-nano', reasoning={"ef
         'instructions': context,
         'input': input,
         'tools': tools,
-        'text': {schema},
+        'text': {'format': schema},
         'model': model,
         "reasoning": reasoning
     }
@@ -69,6 +69,7 @@ def process_reply(reply):
             verified_books = []
         else:
             # later, use method to verify against my db or external api
+            verified_books = books
             return {'books': verified_books, 'assistant_reply': assistant_reply}
     except json.JSONDecodeError:
         return {'books': [], 'assistant_reply': "Sorry, I couldn't understand the response from the recommendation system."}
