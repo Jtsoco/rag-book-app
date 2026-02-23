@@ -80,6 +80,7 @@ Make a mindmap of something new when making it, see how it connects
 - [x] look into using either google books or open library for search
 - [ ] make dummy data of books, allow saving to database if dummy data doesn't already exist when a user saves the book/likes/rates (don't want to use api calls for every interaction)
 - [ ] make specific views for homepage, book search api, chatbot
+- [ ] manager permissions of views, authenticated for chatbot (for now), non-authenticated searches
 
 ### lower priority to do
 
