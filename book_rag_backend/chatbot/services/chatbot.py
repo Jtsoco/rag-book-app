@@ -20,7 +20,8 @@ def ask(query, user=None, client=None):
 
     user_data = get_user_data(user)
     formatted_query = _format_query(query, user_data)
-    response = client.responses.create(**formatted_query)
+
+    response = send_to_gpt(formatted_query, client)
 
     # get messages for gpt,
         # first initial context message explaing what it does
@@ -30,6 +31,13 @@ def ask(query, user=None, client=None):
     # response = get_book_recommendation(query, user_data)
     processed_response = process_reply(response.output_text)
     return processed_response
+
+def send_to_gpt(formatted_query, client=None):
+    if client is None:
+        client = _get_client()
+
+    response = client.responses.create(**formatted_query)
+    return response
 
 
 def get_user_data(user):
