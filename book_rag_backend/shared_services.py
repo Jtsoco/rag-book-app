@@ -33,6 +33,7 @@ def to_open_library(url, query_params={}):
     headers = {
         "User-Agent": f"{os.getenv('MYAPPNAME')} ({os.getenv('MYEMAIL')})"
     }
+    print('sending request to open library with url:', full_url, 'and query params:', query_params)
 
     response = requests.get(full_url, headers=headers, params=query_params)
     return response

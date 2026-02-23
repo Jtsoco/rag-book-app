@@ -4,6 +4,7 @@ from shared_services import to_open_library
 
 def fetch_from_open_library(pk):
     # this will retrieve information from open library based on model type and pk, returning data that will be used to create the object
+    print('fetching from open library with pk:', pk)
     response = to_open_library(pk)
     if response.status_code == 200:
         data = response.json()
