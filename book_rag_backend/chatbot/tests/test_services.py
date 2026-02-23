@@ -10,9 +10,11 @@ class OneShotChatbotTestCase(TestCase):
 
     @patch('chatbot.services.chatbot.send_to_gpt')
     def test_ask(self, mock_send_to_gpt):
+        import json
+
         class Response:
             def __init__(self, output_text):
-                self.output_text = output_text
+                self.output_text = json.dumps(output_text)
 
         def mock_side_effect(formatted_query, client=None):
             return Response(mock_output_text)
@@ -23,4 +25,3 @@ class OneShotChatbotTestCase(TestCase):
         self.assertIsInstance(response, dict)
         self.assertIn("books", response)
         self.assertIn("assistant_reply", response)
-        print(response)
