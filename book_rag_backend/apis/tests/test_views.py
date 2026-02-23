@@ -8,8 +8,7 @@ from apis.serializers import BookSerializer
 # from apis.services import fetch_from_open_library
 
 class BookAPIViewTest(APITestCase):
-    def setUp(self):
-        self.client = self.client_class()
+
 
     def test_book_created(self):
         book = Book.objects.create(

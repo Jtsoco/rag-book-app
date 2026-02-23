@@ -4,9 +4,9 @@ from unittest.mock import patch
 # Create your tests here.
 from ..services.chatbot import ask
 from .mock_data import mock_output_text
+from rest_framework.test import APITestCase
 
-
-class OneShotChatbotTestCase(TestCase):
+class ChatbotAskMethodTestCase(TestCase):
 
     @patch('chatbot.services.chatbot.send_to_gpt')
     def test_ask(self, mock_send_to_gpt):
