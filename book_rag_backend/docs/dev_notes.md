@@ -86,6 +86,7 @@ Make a mindmap of something new when making it, see how it connects
 - [ ] psycopg2 is marked in the DATABASES engine area for settings, look into psycogp3
 - [ ] use different credentials for .env when using a production server, for every variable
 - [x] edit the models diagrams to better mimic the edits to the modesl in books
+- [ ] make list of libraries used asides just the requirements.txt, some are installed as part of other libraries some aren't like dj-rest-auth and django-allauth
 
 ## OpenLibrary Notes
 
