@@ -45,7 +45,7 @@ def get_user_data(user):
     if not user:
         return None
     else:
-        bookshelf_data = BookshelfBook.objects.filter(bookshelf__user=user).values('book__title', 'book__open_library_key', 'bookshelf__enjoyment_rating')
+        bookshelf_data = BookshelfBook.objects.filter(user=user).values('book__title', 'book__open_library_key', 'enjoyment_rating')
         return list(bookshelf_data)
         # not implemented yet
     # get user data from db, including bookshelf data and ratings, and return it in a format that can be sent to gpt

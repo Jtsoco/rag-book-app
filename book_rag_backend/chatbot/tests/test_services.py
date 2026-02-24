@@ -36,7 +36,7 @@ class ChatbotAskMethodTestCase(TestCase):
         count = 0
         for item in info:
             book = item.get('book')
-            author = item.get('author')
+            author = item.get('authors')[0]
             # save book to database
             book_obj = Book.objects.create(
                 title=book['title'],
@@ -49,7 +49,6 @@ class ChatbotAskMethodTestCase(TestCase):
                 name=author['name'],
                 open_library_key=author['open_library_key'],
                 bio=author['bio'],
-                birth_date=author['birth_date']
             )
             # add author to book
             book_obj.authors.add(author_obj)
@@ -58,6 +57,13 @@ class ChatbotAskMethodTestCase(TestCase):
                 book=book_obj,
                 enjoyment_rating=user_ratings[count % len(user_ratings)],
                 literary_rating=user_ratings[4],
-                user_id=user
+                user=user
             )
             count += 1
+        from chatbot.services.chatbot import get_user_data
+        user_data = get_user_data(user)
+        self.assertIsInstance(user_data, list)
+        self.assertGreater(len(user_data), 0)
+        self.assertIn('book__title', user_data[0])
+        self.assertIn('book__open_library_key', user_data[0])
+        self.assertIn('enjoyment_rating', user_data[0])
