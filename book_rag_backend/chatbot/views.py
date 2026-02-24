@@ -15,7 +15,7 @@ class SingleChatMessageAPIView(APIView):
             query = request.data.get('query')
             if not query:
                 return Response({'error': 'Query is required'}, status=400)
-            response_data = ask(query)
+            response_data = ask(query, request.user)
             return Response({'response': response_data}, status=200)
 
         # user sends jwt, verify if logged in

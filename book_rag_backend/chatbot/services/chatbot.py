@@ -4,6 +4,7 @@ from openai import OpenAI
 import os
 import dotenv
 from .context import get_context, get_schema
+from books.models import BookshelfBook, Book
 # will use response api
 
 
@@ -44,7 +45,8 @@ def get_user_data(user):
     if not user:
         return None
     else:
-        return None
+        bookshelf_data = BookshelfBook.objects.filter(bookshelf__user=user).values('book__title', 'book__open_library_key', 'bookshelf__enjoyment_rating')
+        return list(bookshelf_data)
         # not implemented yet
     # get user data from db, including bookshelf data and ratings, and return it in a format that can be sent to gpt
 

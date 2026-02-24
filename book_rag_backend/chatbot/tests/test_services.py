@@ -5,6 +5,9 @@ from unittest.mock import patch
 from ..services.chatbot import ask
 from .mock_data import mock_output_text
 from rest_framework.test import APITestCase
+from chatbot.tests.get_book_author_data import get_mock_book_author_info
+from books.models import Book, Author, BookshelfBook
+from django.contrib.auth.models import User
 
 class ChatbotAskMethodTestCase(TestCase):
 
@@ -25,3 +28,36 @@ class ChatbotAskMethodTestCase(TestCase):
         self.assertIsInstance(response, dict)
         self.assertIn("books", response)
         self.assertIn("assistant_reply", response)
+
+    def test_get_user_data(self):
+        user = User.objects.create_user(username='testuser', password='testpassword')
+        user_ratings = [5,4,3,3,5,4,4]
+        info = get_mock_book_author_info()
+        count = 0
+        for item in info:
+            book = item.get('book')
+            author = item.get('author')
+            # save book to database
+            book_obj = Book.objects.create(
+                title=book['title'],
+                open_library_key=book['open_library_key'],
+                description=book['description'],
+                cover_id=book['cover_id']
+            )
+            # save author if not present
+            author_obj, created = Author.objects.get_or_create(
+                name=author['name'],
+                open_library_key=author['open_library_key'],
+                bio=author['bio'],
+                birth_date=author['birth_date']
+            )
+            # add author to book
+            book_obj.authors.add(author_obj)
+            book_obj.save()
+            bookshelf_book = BookshelfBook.objects.create(
+                book=book_obj,
+                enjoyment_rating=user_ratings[count % len(user_ratings)],
+                literary_rating=user_ratings[4],
+                user_id=user
+            )
+            count += 1

@@ -1,3 +1,4 @@
+# mock gpt output_text
 mock_output_text = {
     "books": [
         {
