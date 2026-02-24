@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
 # book model, modified from original schema to match open libraries api better, but has fewer fields, built from the bulk data handed out by their site and the open library api documentation. instead of being a data json field, i'm going to make a specific field for each piece of data that i want to use
@@ -12,6 +13,8 @@ class Book(models.Model):
     open_library_key = models.CharField(max_length=50, primary_key=True)
     description = models.TextField(null=True, blank=True)
     cover_id = models.IntegerField(null=True, blank=True)
+    # authors = models.ManyToManyField('Author')
+
     # open_library_url = models.URLField(max_length=200, null=True, blank=True) with the key, i can easily reconstruct the url, so no need to store it
     # isbn = models.CharField(max_length=13, null=True, blank=True)
     # isbn is for a specific version, but i'm using the open library key for works as a whole instead, so not a single isbn will be used for each book therefore no need for the field as of now
@@ -33,7 +36,7 @@ class Book(models.Model):
 
 class BookshelfBook(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     enjoyment_rating = models.IntegerField(null=True, blank=True, validators=[MinValueValidator(0), MaxValueValidator(5)])
     literary_rating = models.IntegerField(null=True, blank=True, validators=[MinValueValidator(0), MaxValueValidator(5)])
 
@@ -48,15 +51,18 @@ class Author(models.Model):
     open_library_key = models.CharField(max_length=50, primary_key=True)
     bio = models.TextField(null=True, blank=True)
     birth_date = models.CharField(max_length=100, null=True, blank=True)
+    books = models.ManyToManyField(Book, related_name='authors')
 
-# author-book many to many connector model
-# fields of
-# foreign key: open library book key
-# foreign key: open library author key
 
-class AuthorBook(models.Model):
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+
+
+class AuthorWorksPaginationCache(models.Model):
+    # implemented to prevent too many open library calls
+    # this exists to keep track of works pagination for an author, so that it only needs to be fetched once on an authors page, and then can be stored and accessed for each book on that authors page, and then save database data for not needing to store every work key on every author, just see if a pagination exists.
+    author = models.OneToOneField(Author, on_delete=models.CASCADE, primary_key=True)
+    works_pagination = ArrayField(models.JSONField(), null=False, blank=False, default=list, size=25)
+    page_number = models.IntegerField(default=1)
+    final_page = models.BooleanField(default=False)
 
 
 # subject model
@@ -64,12 +70,11 @@ class AuthorBook(models.Model):
 class Subject(models.Model):
     name = models.CharField(max_length=200)
     # there is no library key for subjects, so use int as primary key to save data, and then just look up name through connection
+    books = models.ManyToManyField(Book, related_name='subjects')
 
 # subject-book many to many connector model
 
-class BookSubject(models.Model):
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+
 
 
 

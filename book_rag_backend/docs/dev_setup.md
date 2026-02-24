@@ -14,7 +14,7 @@ pip install -r requirements.txt
 brew update
 brew install postgresql
 
-<!-- run a postgresql server -->
+<!-- run a postgresql server, run before django server -->
 brew services start postgresql
 
 <!-- end a postgresql server -->

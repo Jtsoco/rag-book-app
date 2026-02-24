@@ -26,25 +26,26 @@ def to_open_library(url, query_params={}):
     # options are empty by default
     load_dotenv()
     # this will send to open library with the necessary headers and options to retrieve the data
-    base_url = "https://openlibrary.org"
+    base_url = 'https://openlibrary.org/'
     end_url = '.json'
+
     full_url = base_url + url + end_url
     headers = {
         "User-Agent": f"{os.getenv('MYAPPNAME')} ({os.getenv('MYEMAIL')})"
     }
+    print('sending request to open library with url:', full_url, 'and query params:', query_params)
 
-    print(f"Sending request to Open Library API at {full_url} with query params: {query_params}")
     response = requests.get(full_url, headers=headers, params=query_params)
-    print(f"Received response from Open Library API with status code: {response.status_code}")
     return response
 
 
-url = 'search'
-query_params = {
-    "q": "harry potter",
-    "page": 2,
-    "limit": 10
-}
+
+# url = 'search'
+# query_params = {
+#     "q": "harry potter",
+#     "page": 2,
+#     "limit": 10
+# }
 
 # response = to_open_library(url, query_params)
 # response = to_open_library('works/OL45804W')
