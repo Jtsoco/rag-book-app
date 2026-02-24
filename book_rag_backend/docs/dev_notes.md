@@ -42,7 +42,7 @@ Make a mindmap of something new when making it, see how it connects
 ### Top to Do
 
 - [ ] Integrate chatbot API
-- [ ] RAG system development v0.1
+- [x] RAG system development v0.1
 
 
 ### Specific To Do
@@ -53,7 +53,7 @@ Make a mindmap of something new when making it, see how it connects
   - [x] Books app
   - [x] Chatbot app
   - [x] Api app
-- [ ] make authentication login/logout for django
+- [x] make authentication login/logout for django
 - [ ] make api views for things like books
   - [ ] book and author singleton view, with retrieval from open library when nonexistent and saving to database
     - [x] mixins to allow api retrieval
@@ -75,12 +75,12 @@ Make a mindmap of something new when making it, see how it connects
       - [ ] async test, make separate test file that doesn't normally run with all tests, only when explicitely run (due to async api calls with open library)
 
   - [x] search that uses openapi library batch.json search
-- [ ] make schema for chatbot api
-- [ ] integrate it like in my test app i did
+- [x] make schema for chatbot api
+- [x] integrate it like in my test app i did
 - [x] look into using either google books or open library for search
-- [ ] make dummy data of books, allow saving to database if dummy data doesn't already exist when a user saves the book/likes/rates (don't want to use api calls for every interaction)
-- [ ] make specific views for homepage, book search api, chatbot
-- [ ] manager permissions of views, authenticated for chatbot (for now), non-authenticated searches
+- [x] make dummy data of books, allow saving to database if dummy data doesn't already exist when a user saves the book/likes/rates (don't want to use api calls for every interaction)
+- [x] make specific views for homepage, book search api, chatbot
+- [x] manager permissions of views, authenticated for chatbot (for now), non-authenticated searches
 
 ### lower priority to do
 
@@ -127,17 +127,17 @@ Future Model Considerations:
 
 Make the chatbot:
 
-- [ ] basic communication with ChatGPT
+- [x] basic communication with ChatGPT
 <!-- - [ ] Conversation flow (how many queries? cach last context sent? leave that for front end?) -->
 <!-- look into conversation id again for chatgpt -->
-- [ ] implement single shot for now, query response no follow up
-- [ ] Post Json Schema
-- [ ] ChatGPT response Schema
+- [x] implement single shot for now, query response no follow up
+- [x] Post Json Schema
+- [x] ChatGPT response Schema
 
-- [ ] Implement JWT verification for users
+- [x] Implement JWT verification for users
 
-- [ ] Implement View
-- [ ] If logged in, use user data, pass to gpt
+- [x] Implement View
+- [x] If logged in, use user data, pass to gpt
 
 Search Version:
 
