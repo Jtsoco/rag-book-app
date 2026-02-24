@@ -11,26 +11,7 @@ from django.contrib.auth.models import User
 
 class ChatbotAskMethodTestCase(TestCase):
 
-    @patch('chatbot.services.chatbot.send_to_gpt')
-    def test_ask(self, mock_send_to_gpt):
-        import json
-
-        class Response:
-            def __init__(self, output_text):
-                self.output_text = json.dumps(output_text)
-
-        def mock_side_effect(formatted_query, client=None):
-            return Response(mock_output_text)
-
-        mock_send_to_gpt.side_effect = mock_side_effect
-
-        response = ask("What's a fun fantasy adventure with a western feel, but with swords? 3 recommendations please")
-        self.assertIsInstance(response, dict)
-        self.assertIn("books", response)
-        self.assertIn("assistant_reply", response)
-
-    def test_get_user_data(self):
-        user = User.objects.create_user(username='testuser', password='testpassword')
+    def create_book_author_data(self, user):
         user_ratings = [5,4,3,3,5,4,4]
         info = get_mock_book_author_info()
         count = 0
@@ -60,6 +41,31 @@ class ChatbotAskMethodTestCase(TestCase):
                 user=user
             )
             count += 1
+
+    @patch('chatbot.services.chatbot.send_to_gpt')
+    def test_ask(self, mock_send_to_gpt):
+        import json
+        user = User.objects.create_user(username='testuser', password='testpassword')
+        self.create_book_author_data(user)
+
+        class Response:
+            def __init__(self, output_text):
+                self.output_text = json.dumps(output_text)
+
+        def mock_side_effect(formatted_query, client=None):
+            return Response(mock_output_text)
+
+        mock_send_to_gpt.side_effect = mock_side_effect
+
+        response = ask("What's a fun fantasy adventure with a western feel, but with swords? 3 recommendations please")
+        self.assertIsInstance(response, dict)
+        self.assertIn("books", response)
+        self.assertIn("assistant_reply", response)
+
+    def test_get_user_data(self):
+        user = User.objects.create_user(username='testuser', password='testpassword')
+        self.create_book_author_data(user)
+
         from chatbot.services.chatbot import get_user_data
         user_data = get_user_data(user)
         self.assertIsInstance(user_data, list)

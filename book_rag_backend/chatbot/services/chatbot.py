@@ -57,7 +57,8 @@ def _format_query(query, user_data, tools=[], model='gpt-5-nano', reasoning={"ef
     schema = get_schema()
     if user_data:
         # convert user_data to string, then enter it
-        input += f"\nUser Data: {user_data}"
+        string_data = json.dumps(user_data)
+        input += f"\nUser Data: {string_data}"
 
     formatted = {
         'instructions': context,
