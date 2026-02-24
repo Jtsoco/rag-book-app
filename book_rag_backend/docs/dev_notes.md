@@ -32,7 +32,6 @@ PsostgreSQL uses psycopg3 (referred to as psycopg) for database interactions not
 
 - Consider using Celery to handle async tasks. For testing the API chatbot, it's not needed yet, but with multiple users, async handling for fetching data from the database, utilizing it, and sending it to the chatbot takes time.
 
-
 ## Immediate to Do
 
 ### Top to Do
