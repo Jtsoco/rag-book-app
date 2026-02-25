@@ -64,7 +64,10 @@ def fetch_work_with_authors(work_key: str) -> Dict[str, Any]:
         if not author_key:
             continue
         if author_key in all_authors:
+
+            result["authors"].append({"open_library_key": author_key})
             continue
+
         all_authors.add(author_key)
         auth = _fetch_author(author_key)
         result["authors"].append(

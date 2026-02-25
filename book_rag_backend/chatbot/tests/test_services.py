@@ -26,11 +26,16 @@ class ChatbotAskMethodTestCase(TestCase):
                 cover_id=book['cover_id']
             )
             # save author if not present
-            author_obj, created = Author.objects.get_or_create(
-                name=author['name'],
-                open_library_key=author['open_library_key'],
-                bio=author['bio'],
-            )
+            author_key = author['open_library_key']
+            try:
+                author_obj = Author.objects.get(open_library_key=author_key)
+            except Author.DoesNotExist:
+                # name, bio will exist in json if not yet in db due to ordering, where first data has all author data, subsequent only keys
+                author_obj = Author.objects.create(
+                    name=author['name'],
+                    open_library_key=author['open_library_key'],
+                    bio=author['bio'],
+                )
             # add author to book
             book_obj.authors.add(author_obj)
             book_obj.save()
