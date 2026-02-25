@@ -46,11 +46,11 @@ Implemented:
 
 Current models:
 
-[Current models](docs/diagrams/current_models.png)
+![Current models](./diagrams/current_models.png)
 
 Future planned models:
 
-[Future planned models](docs/diagrams/future_model_notes.png)
+![Future planned models](./diagrams/future_model_notes.png)
 
 ## Future Considerations
 
