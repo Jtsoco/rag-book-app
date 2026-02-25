@@ -49,7 +49,7 @@ user query + user book rating data (bookshelf data) -> system prompt + user prom
 ## Getting Started
 
 - Prerequisites: Python 3.x, PostgreSQL, OpenAI API key
-- Clone -> venv -> 'pip install -r requirements.txt' -> create DB -> '.env' -> migrate -> runserver
+- Clone -> venv -> `pip install -r requirements.txt` -> create DB -> `.env` -> migrate -> runserver
 - Link to full [Dev Notes](book_rag_backend/docs/dev_notes.md)
 
 ## Environment Variables
