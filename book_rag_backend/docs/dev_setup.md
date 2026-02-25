@@ -1,63 +1,84 @@
 # Setup
 
-## Running a dev server
+## Prerequisites
 
-```console
-<!-- create a venv -->
+- Python 3.x
+- PostgreSQL
+- pip / venv
+- git
+- OpenAI API key
+
+## Installation
+
+### Repo Setup
+
+```command
+gh repo clone Jtsoco/rag-book-app
+cd rag-book-app
 python -m venv .venv
-<!-- start a venv -->
 source .venv/bin/activate
-<!-- install requirements -->
+cd book_rag_backend
 pip install -r requirements.txt
-
-<!-- use brew on mac to install postgres -->
-brew update
-brew install postgresql
-
-<!-- run a postgresql server, run before django server -->
-brew services start postgresql
-
-<!-- end a postgresql server -->
-brew services stop postgresql
-
-<!-- when server is running, for first time db create a db -->
-createdb devdb
-
 ```
 
-The django settings should be this. However, if you decide to use a different name for the db you'll need to change it. if so, make sure you match all collaborators
+Deactivate venv
 
-```python
-# port is the default postgres port, using generic user and password for the dev environment
-# store your username and password, host and port in a .env
-
-# make sure to use dotenv library, and have the following imports at the top of the file
-# from dotenv import load_dotenv
-# import os
-
-load_dotenv()
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.getenv("DBNAME"),
-        "USER": os.getenv("DBUSER"),
-        "PASSWORD": os.getenv("DBPASSWORD"),
-        "HOST": os.getenv("DBHOST"),
-        "PORT": os.getenv("DBPORT"),
-    }
-}
-
-
+```command
+deactivate
 ```
 
-example environment
+### PostgreSQL Setup
+
+#### MacOS
+
+- Install `brew install postgresql`
+- Start `brew services start postgresql`
+- Create DB `createdb devdb`
+- Stop `brew services stop postgresql`
+
+### Environment Variables
+
+- Create `.env` in `book_rag_backend/`
+- Add `.env` to .gitignore file if not there, do not commit `.env`
+
+#### Example env
 
 ```env
-DBUSER=[yourUSER]
-DBPASSWORD=[yourPassword]
-DBNAME=[your db, devdb]
-DBHOST=[your host, probably localhost]
-DBPORT=[default is 5432]
+DBUSER=UserName
+DBPASSWORD=postgres
+DBNAME=example_book_devdb
+DBHOST=localhost
+DBPORT=5432
+MYEMAIL=example@gmail.com
+MYAPPNAME=book_rag_backend_personal_example_project/0.1
+OPENAI_API_KEY=example_key_hello
+```
 
+### Database Migration
 
+```command
+python manage.py migrate
+```
+
+### Running Tests
+
+```command
+python manage.py test
+```
+
+### Management Commands
+
+Additional management commands added for the project:
+
+#### Command to retrieve Open Library individual works data
+
+Fetches works and their authors from Open Library and writes them to a JSON file.
+Sleep delay to prevent overwhelming Open Library API
+
+`python manage.py export_ol <output_path> <key1> <key2> ...`
+
+Example:
+
+```command
+python manage.py export_ol data.json OL15358691W OL16813053W
 ```
