@@ -33,7 +33,7 @@ user query + user book rating data (bookshelf data) -> system prompt + user prom
 
 ### Current Database Schema
 
-![Current models and notes](./diagrams/current_models.png)
+![Current models and notes](book_rag_backend/docs/diagrams/current_models.png)
 
 ## API Endpoints
 
