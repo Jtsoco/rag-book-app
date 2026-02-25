@@ -34,3 +34,16 @@ Implemented:
 
 - Single-shot design (no conversation history), simple, stateless version
 - OpenAI Responses API, utilizing structured JSON Schema
+- User book ratings + titles serialized into prompt with user query
+
+## Authentication
+
+- JSON Web Token auth + session auth (DRF)
+- dj-rest-auth + django-allauth for REST auth flows
+- Permission strategy: public book/author/search, authenticated chatbot onlyu
+
+## Database Diagrams
+
+Current models:
+
+[Current models and notes](docs/diagrams/current_models.png)
