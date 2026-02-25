@@ -46,4 +46,15 @@ Implemented:
 
 Current models:
 
-[Current models and notes](docs/diagrams/current_models.png)
+[Current models](docs/diagrams/current_models.png)
+
+Future planned models:
+
+[Future planned models](docs/diagrams/future_model_notes.png)
+
+## Future Considerations
+
+- Implement Async for Views like Chatbot
+- Chatbot User Data and Similar User Data filtering implementation (0.2)
+- pgvector to utilize PostgreSQL as a vector database for semantic search with chatbot (v0.3)
+- Full OL data dump feasibility (v0.4)
