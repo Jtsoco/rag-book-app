@@ -33,7 +33,43 @@ user query + user book rating data (bookshelf data) -> system prompt + user prom
 
 ### Current Database Schema
 
-![Current models and notes](book_rag_backend/docs/diagrams/current_models.png)
+```mermaid
+erDiagram
+  USER ||--o{ BOOK_SHELF_BOOK : has
+  BOOK ||--o{ BOOK_SHELF_BOOK : on
+  BOOK ||--o{ AUTHOR : has
+  BOOK ||--o{ SUBJECT : has
+  USER {
+    string username
+    string password
+    int user_id
+    string email
+    string first_name
+    string last_name
+  }
+  BOOK {
+    string title
+    text description
+    string open_library_key
+    int cover_id
+  }
+  BOOK_SHELF_BOOK {
+    foreign_key user_id
+    foreign_key book_id
+    int literary_rating
+    int entertainment_rating
+  }
+  AUTHOR {
+    string name
+    string open_library_key
+    text bio
+    string birth_date
+  }
+  SUBJECT {
+    int subject_id
+    string name
+  }
+```
 
 ## API Endpoints
 

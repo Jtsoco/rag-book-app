@@ -46,11 +46,66 @@ Implemented:
 
 Current models:
 
-![Current models](./diagrams/current_models.png)
+```mermaid
+erDiagram
+  USER ||--o{ BOOK_SHELF_BOOK : has
+  BOOK ||--o{ BOOK_SHELF_BOOK : on
+  BOOK ||--o{ AUTHOR : has
+  BOOK ||--o{ SUBJECT : has
+  USER {
+    string username
+    string password
+    int user_id
+    string email
+    string first_name
+    string last_name
+  }
+  BOOK {
+    string title
+    text description
+    string open_library_key
+    int cover_id
+  }
+  BOOK_SHELF_BOOK {
+    foreign_key user_id
+    foreign_key book_id
+    int literary_rating
+    int entertainment_rating
+  }
+  AUTHOR {
+    string name
+    string open_library_key
+    text bio
+    string birth_date
+  }
+  SUBJECT {
+    int subject_id
+    string name
+  }
+```
 
 Future planned models:
 
-![Future planned models](./diagrams/future_model_notes.png)
+```mermaid
+erDiagram
+  SERIES ||--o{ SERIES_BOOK : has
+  BOOK ||--o{ SERIES_BOOK : in
+  SERIES {
+    string series_name
+    int series_id
+  }
+  SERIES_BOOK {
+    int book_number
+    foreign_key book_id
+    foreign_key series_id
+  }
+  BOOK {
+    string title
+    text description
+    string open_library_key
+    int cover_id
+  }
+```
 
 ## Future Considerations
 
