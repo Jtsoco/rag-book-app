@@ -26,7 +26,6 @@ class BookAPIViewTest(APITestCase):
             name="Test Author",
             open_library_key="/authors/OL123A",
             bio="A test author",
-            birth_date="1900-01-01"
         )
         self.assertEqual(Author.objects.count(), 1)
         self.assertEqual(author.name, "Test Author")
@@ -94,7 +93,6 @@ class BookAPIViewTest(APITestCase):
                     'name': 'Fetched Author',
                     'key': '/authors/OL34184A',
                     'bio': {'value': 'Fetched author bio'},
-                    'birth_date': '1900-01-01'
                 }
             return None
 
@@ -126,7 +124,6 @@ class BookAPIViewTest(APITestCase):
             name="Existing Author",
             open_library_key="/authors/OL34184A",
             bio="An existing author",
-            birth_date="1900-01-01"
         )
 
 
@@ -152,7 +149,6 @@ class AuthorAPIViewTest(APITestCase):
                     'name': 'New Fetched Author',
                     'key': '/authors/OL34185A',
                     'bio': {'value': 'New fetched author bio'},
-                    'birth_date': '1900-01-01'
                 }
             return None
 

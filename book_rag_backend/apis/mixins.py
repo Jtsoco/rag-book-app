@@ -101,12 +101,10 @@ class OpenLibraryFetchIfNotFoundMixin:
             open_library_key = data.get('key')
             # bio can be a dictionary with a value field
             bio = data.get('bio', {''}).get('value', '')
-            birth_date = data.get('birth_date', '')
             return {
                 'name': name,
                 'open_library_key': open_library_key,
                 'bio': bio,
-                'birth_date': birth_date
             }
 
 

@@ -7,13 +7,13 @@ class AuthorSerializer(serializers.ModelSerializer):
     # make this pagination based for works
     class Meta:
         model = Author
-        fields = ('name', 'open_library_key', 'bio', 'birth_date',)
+        fields = ('name', 'open_library_key', 'bio')
 
 
 class SingleAuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
-        fields = ('name', 'open_library_key', 'bio', 'birth_date',)
+        fields = ('name', 'open_library_key', 'bio')
 
 
 class BookSerializer(serializers.ModelSerializer):
