@@ -1,4 +1,5 @@
 ```mermaid
+
 flowchart TD
     A([User]) -->|POST query| B[Django View]
     B -->|check auth| C{Authenticated?}
@@ -39,4 +40,11 @@ flowchart LR
     C <-->|bookshelf query| D
     C -->|prompt + schema| F
     F -->|response| C
+
+    style A fill:#e8eaf6,stroke:#3949ab,color:#1a237e
+    style B fill:#0d47a1,color:#fff,stroke:#0d47a1
+    style C fill:#1565c0,color:#fff,stroke:#1565c0
+    style D fill:#336791,color:#fff,stroke:#336791
+    style E fill:#e65100,color:#fff,stroke:#e65100
+    style F fill:#74aa9c,color:#fff,stroke:#74aa9c
 ```
