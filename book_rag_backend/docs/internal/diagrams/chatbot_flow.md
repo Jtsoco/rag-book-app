@@ -19,10 +19,9 @@ flowchart LR
         A([User / Frontend])
     end
     subgraph Django["Django Backend"]
-        direction TB
         B[DRF API Views]
         C[Chatbot Service]
-        B <--> C
+
     end
     subgraph Database
         D[(PostgreSQL)]
@@ -34,8 +33,10 @@ flowchart LR
     end
 
     A <-->|REST| B
-    B <-->|fetch if not found| D
-    B <-->|fallback| E
-    C -->|bookshelf query| D
+    B <-->|ChatbotView| C
+    B <-->|Get Book/Author| D
+    B <-->|Fallback Fetch Data / Bulk Search| E
+    C <-->|bookshelf query| D
     C -->|prompt + schema| F
+    F -->|response| C
 ```
