@@ -1,6 +1,6 @@
 ```mermaid
 
-flowchart TD
+flowchart RL
     A([User]) -->|POST query| B[Django View]
     B -->|check auth| C{Authenticated?}
     C -->|No| D[401 Unauthorized]
