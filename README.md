@@ -16,7 +16,7 @@ A personalized book recommendation app powered by a RAG chatbot.
 |----------------|-----------------------------------------|
 | Framework      | Django 6.0.2                            |
 | API            | Django REST Framework 3.16.1            |
-| AI/LLM         | OpenAI SDK 2.20.0 (gpt-5-nano)         |
+| AI/LLM         | OpenAI-Python 2.20.0 (gpt-5-nano)         |
 | Database       | PostgreSQL (psycopg)       |
 | Auth           | dj-rest-auth + django-allauth    |
 
