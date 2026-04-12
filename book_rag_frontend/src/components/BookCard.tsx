@@ -50,7 +50,7 @@ export const BookCard = (props: BookCardProps) => {
 
   return (
     <div
-      className="book-card group relative overflow-hidden aspect-[2/3] h-75 flex-shrink-0"
+      className="book-card group relative overflow-hidden aspect-[2/3] h-75 flex-shrink-0 hover:scale-110 transition-scale duration-[500ms,300ms] ease-in-out"
       onClick={onClick}
       style={{ cursor: onClick ? 'pointer' : 'default' }}
     >
