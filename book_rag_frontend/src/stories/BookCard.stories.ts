@@ -26,6 +26,6 @@ export const NoCover: Story = {
   args: {
     title: '1984',
     author: 'George Orwell',
-    coverUrl: '',
+    coverUrl: 'https://invalid-url-for-testing.com/no-image.jpg',
   },
 };
