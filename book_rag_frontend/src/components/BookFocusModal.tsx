@@ -1,0 +1,91 @@
+import React, { useState } from 'react';
+
+export interface BookFocusModalProps {
+  title: string;
+  author: string;
+  description: string;
+  coverUrl: string;
+  enjoymentRating: number;
+  literaryRating: number;
+
+  onClose: () => void;
+  onMoreInfo: () => void;
+}
+
+
+export const BookFocusModal = (props: BookFocusModalProps) => {
+  const [imageError, setImageError] = useState(false);
+  const renderStars = (rating: number) => {
+    const stars = '★'.repeat(Math.floor(rating)) + '☆'.repeat(5 - Math.floor(rating));
+    return <span className="text-yellow-500">{stars}</span>;
+  };
+  const { title, author, description, coverUrl, enjoymentRating, literaryRating, onClose, onMoreInfo } = props;
+  const getImageElement = () => {
+    if (imageError) {
+      return (
+        <div className="w-full h-full bg-gray-400 flex items-center justify-center p-4">
+          <div className="text-center text-white bg-black p-4 rounded" >
+            <h3 className="text-sm font-bold">{title}</h3>
+            <p className="text-xs">{author}</p>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <img
+          src={coverUrl}
+          alt={`${title} cover`}
+          className="w-full h-full object-cover"
+          onError={() => setImageError(true)}
+        />
+      );
+    }
+  };
+  return (
+    <div
+      className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 text-black"
+      onClick={onClose}  // Close on backdrop click
+    >
+      <div
+        className="fixed bg-white p-6 rounded-lg max-w-4xl w-full mx-4 flex flex-col md:flex-row gap-6"
+        onClick={(e) => e.stopPropagation()}  // Prevent close on modal click
+      >
+        {/* Close Button */}
+        <button
+          className="absolute top-1 right-4 text-gray-500 hover:text-gray-700 text-2xl"
+          onClick={onClose}
+        >
+          ×
+        </button>
+
+        {/* Left Side: Cover and Ratings */}
+        <div className="flex flex-col items-center md:w-1/3">
+          {getImageElement()}
+          <div className="text-center space-y-2">
+            <div>
+              <p className="text-sm text-gray-600">Literary Rating</p>
+              {renderStars(literaryRating)} <span className="ml-1">{literaryRating}/5</span>
+            </div>
+                        <div>
+              <p className="text-sm text-gray-600">Enjoyment Rating</p>
+              {renderStars(enjoymentRating)} <span className="ml-1">{enjoymentRating}/5</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Side: Title, Author, Description, Button */}
+        <div className="md:w-2/3 flex flex-col justify-start">
+          <h1 className="text-3xl font-bold mb-2">{title}</h1>
+          <p className="text-xl text-gray-600 mb-4">by {author}</p>
+          <p className="text-gray-700 mb-6 leading-relaxed">{description}</p>
+          <button
+            className="self-start px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+            onClick={onMoreInfo}
+          >
+            More Info
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
