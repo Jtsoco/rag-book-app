@@ -38,7 +38,7 @@ export const BookCard = (props: BookCardProps) => {
       return null;
     } else {
       return (
-        <div className="absolute bottom-0 left-0 right-0 max-h-1/3 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-2">
+        <div className="absolute bottom-0 left-0 right-0 max-h-1/3 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-[500ms,300ms] ease-in-out flex items-end p-2">
           <div className="text-white">
             <h3 className="book-title text-sm font-bold">{title}</h3>
             <p className="book-author text-xs">{author}</p>
