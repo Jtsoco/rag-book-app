@@ -1,44 +1,77 @@
-import { BookCarousel } from '../components/BookCarousel';
-import { type CarouselProps } from '../components/BookCarousel';
-import { BookCard, type BookCardProps } from '../components/BookCard';
 import type { Meta, StoryObj } from '@storybook/react';
+import { BookCarousel } from '../components/BookCarousel';
+import type { BookCardProps } from '../components/BookCard';
+
+const mockBooks: BookCardProps[] = [
+  {
+    title: 'The Great Gatsby',
+    author: 'F. Scott Fitzgerald',
+    coverUrl: 'https://covers.openlibrary.org/b/id/7725946-M.jpg',
+  },
+  {
+    title: '1984',
+    author: 'George Orwell',
+    coverUrl: 'https://covers.openlibrary.org/b/id/7878060-M.jpg',
+  },
+  {
+    title: 'To Kill a Mockingbird',
+    author: 'Harper Lee',
+    coverUrl: 'https://covers.openlibrary.org/b/id/7889443-M.jpg',
+  },
+  {
+    title: 'Pride and Prejudice',
+    author: 'Jane Austen',
+    coverUrl: 'https://covers.openlibrary.org/b/id/8417626-M.jpg',
+  },
+  {
+    title: 'The Catcher in the Rye',
+    author: 'J.D. Salinger',
+    coverUrl: 'https://covers.openlibrary.org/b/id/7976599-M.jpg',
+  },
+  {
+    title: 'Brave New World',
+    author: 'Aldous Huxley',
+    coverUrl: 'https://covers.openlibrary.org/b/id/7975644-M.jpg',
+  },
+  {
+    title: 'Jane Eyre',
+    author: 'Charlotte Brontë',
+    coverUrl: 'https://covers.openlibrary.org/b/id/7976518-M.jpg',
+  },
+];
 
 const meta = {
   title: 'Components/BookCarousel',
   component: BookCarousel,
   parameters: {
-    layout: 'centered',
+    layout: 'padded',
   },
   tags: ['autodocs'],
 } satisfies Meta<typeof BookCarousel>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-const gatsby = {
-        title: 'The Great Gatsby',
-        author: 'F. Scott Fitzgerald',
-        coverUrl: 'https://ia600507.us.archive.org/view_archive.php?archive=/8/items/l_covers_0009/l_covers_0009_36.zip&file=0009367297-L.jpg',
-      }
 
 export const Default: Story = {
   args: {
-    title: 'Recommended Books',
-    books: [
-      {
-        title: 'The Great Gatsby',
-        author: 'F. Scott Fitzgerald',
-        coverUrl: 'https://ia600507.us.archive.org/view_archive.php?archive=/8/items/l_covers_0009/l_covers_0009_36.zip&file=0009367297-L.jpg',
-      },
-      {
-        title: '1984',
-        author: 'George Orwell',
-        coverUrl: 'https://invalid-url-for-testing.com/no-image.jpg',
-      },
-      gatsby,
-      gatsby,
-      gatsby,
-      gatsby,
-    ],
-    onBookClick: (book: BookCardProps ) => alert(`Clicked on: ${book.title} by ${book.author}`),
+    title: 'Must Read Classics',
+    books: mockBooks,
+    onBookClick: (book: BookCardProps) => console.log('Clicked book:', book),
+  },
+};
+
+export const FewBooks: Story = {
+  args: {
+    title: 'Limited Selection',
+    books: mockBooks.slice(0, 3),
+    onBookClick: (book: BookCardProps) => console.log('Clicked book:', book),
+  },
+};
+
+export const ManyBooks: Story = {
+  args: {
+    title: 'Extensive Library',
+    books: [...mockBooks, ...mockBooks, ...mockBooks],
+    onBookClick: (book: BookCardProps) => console.log('Clicked book:', book),
   },
 };
