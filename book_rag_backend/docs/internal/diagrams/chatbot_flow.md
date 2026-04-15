@@ -15,7 +15,7 @@ flowchart TB
 ```
 
 ```mermaid
-flowchart LR
+flowchart
     subgraph Client
         A([User / Frontend])
     end

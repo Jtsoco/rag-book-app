@@ -63,7 +63,6 @@ erDiagram
     string name
     string open_library_key
     text bio
-    string birth_date
   }
   SUBJECT {
     int subject_id
