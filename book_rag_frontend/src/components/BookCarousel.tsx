@@ -24,7 +24,9 @@ export const BookCarousel = (props: CarouselProps) => {
   useEffect(() => {
     checkScrollPosition();
     const container = scrollRef.current;
-    container?.addEventListener('scroll', checkScrollPosition);
+    if (container) {
+      container.addEventListener('scroll', checkScrollPosition);
+    }
     window.addEventListener('resize', checkScrollPosition);
     return () => {
       container?.removeEventListener('scroll', checkScrollPosition);
@@ -37,7 +39,7 @@ export const BookCarousel = (props: CarouselProps) => {
     const firstCard = scrollRef.current.querySelector('.book-card') as HTMLElement;
     if (!firstCard) return;
     const cardWidth = firstCard.offsetWidth + 16; // +16 for gap
-    const amount = cardWidth * Math.ceil((scrollRef.current.clientWidth / cardWidth) * 0.8);
+    const amount = cardWidth * Math.ceil((scrollRef.current.clientWidth / cardWidth) * 0.8); // 0.8 to scroll 80% of cards, allowing some visual continuity
     scrollRef.current.scrollBy({
       left: direction === 'left' ? -amount : amount,
       behavior: 'smooth',
@@ -46,7 +48,7 @@ export const BookCarousel = (props: CarouselProps) => {
 
   return (
     <div className="book-carousel mb-12" id={props.title.toLowerCase()}>
-      <div className="relative px-8">
+      <div className="relative">
 
         <div
           ref={scrollRef}
