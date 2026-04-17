@@ -22,7 +22,7 @@ export interface BookRatingTitleProps {
 }
 export const BookRatingTitle = (props: BookRatingTitleProps) => {
   const { title } = props;
-  return <h3 className="text-lg font-bold mb-2">{title}</h3>;
+  return <p className="">{title}</p>;
 }
 
 export interface CombinedBookRatingProps extends BookRatingProps, BookRatingTitleProps {}

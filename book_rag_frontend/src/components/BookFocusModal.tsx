@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { CombinedBookRating } from './bookComponentPieces/bookRating';
 export interface BookFocusModalProps {
   title: string;
   author: string;
@@ -15,10 +15,7 @@ export interface BookFocusModalProps {
 
 export const BookFocusModal = (props: BookFocusModalProps) => {
   const [imageError, setImageError] = useState(false);
-  const renderStars = (rating: number) => {
-    const stars = '★'.repeat(Math.floor(rating)) + '☆'.repeat(5 - Math.floor(rating));
-    return <span className="text-yellow-500">{stars}</span>;
-  };
+
   const { title, author, description, coverUrl, enjoymentRating, literaryRating, onClose, onMoreInfo } = props;
   const getImageElement = () => {
     if (imageError) {
@@ -61,14 +58,12 @@ export const BookFocusModal = (props: BookFocusModalProps) => {
         {/* Left Side: Cover and Ratings */}
         <div className="flex flex-col items-center md:w-1/3">
           {getImageElement()}
-          <div className="text-center space-y-2">
+          <div className="text-center mt-2">
             <div>
-              <p className="text-sm text-gray-600">Literary Rating</p>
-              {renderStars(literaryRating)} <span className="ml-1">{literaryRating}/5</span>
+              <CombinedBookRating title="Literary Rating" rating={literaryRating} />
             </div>
                         <div>
-              <p className="text-sm text-gray-600">Enjoyment Rating</p>
-              {renderStars(enjoymentRating)} <span className="ml-1">{enjoymentRating}/5</span>
+              <CombinedBookRating title="Enjoyment Rating" rating={enjoymentRating} />
             </div>
           </div>
         </div>
