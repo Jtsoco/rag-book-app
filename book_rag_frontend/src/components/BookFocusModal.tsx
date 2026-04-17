@@ -11,6 +11,8 @@ export interface BookFocusModalProps {
   onClose: () => void;
   onMoreInfo: () => void;
 }
+import { BookTextInfo } from './bookComponentPieces/BookTextInfo';
+import { Book } from 'lucide-react';
 
 
 export const BookFocusModal = (props: BookFocusModalProps) => {
@@ -70,9 +72,7 @@ export const BookFocusModal = (props: BookFocusModalProps) => {
 
         {/* Right Side: Title, Author, Description, Button */}
         <div className="md:w-2/3 flex flex-col justify-start">
-          <h1 className="text-3xl font-bold mb-2">{title}</h1>
-          <p className="text-xl text-gray-600 mb-4">by {author}</p>
-          <p className="text-gray-700 mb-6 leading-relaxed">{description}</p>
+          <BookTextInfo title={title} author={author} description={description} />
           <button
             className="self-start px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
             onClick={onMoreInfo}
