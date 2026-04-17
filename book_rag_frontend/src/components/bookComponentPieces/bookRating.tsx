@@ -9,3 +9,33 @@ export const BookRating = (props: BookRatingProps) => {
   const stars = '★'.repeat(Math.floor(rating)) + '☆'.repeat(5 - Math.floor(rating));
   return <span className="text-yellow-500">{stars}</span>;
 };
+
+
+
+export const BookRatingText = (props: BookRatingProps) => {
+  const { rating } = props;
+  return <span className="text-gray-700">{rating.toFixed(1)} / 5</span>;
+}
+
+export interface BookRatingTitleProps {
+  title: string;
+}
+export const BookRatingTitle = (props: BookRatingTitleProps) => {
+  const { title } = props;
+  return <h3 className="text-lg font-bold mb-2">{title}</h3>;
+}
+
+export interface CombinedBookRatingProps extends BookRatingProps, BookRatingTitleProps {}
+
+export const CombinedBookRating = (props: CombinedBookRatingProps) => {
+  const { title, rating } = props;
+  return (
+    <div className="flex items-center gap-4">
+      <BookRatingTitle title={title} />
+      <div className="flex items-center row-gap-2">
+      <BookRating rating={rating} />
+      <BookRatingText rating={rating} />
+      </div>
+    </div>
+  );
+};
