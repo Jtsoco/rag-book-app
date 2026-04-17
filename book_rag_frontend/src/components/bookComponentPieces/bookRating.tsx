@@ -30,11 +30,11 @@ export interface CombinedBookRatingProps extends BookRatingProps, BookRatingTitl
 export const CombinedBookRating = (props: CombinedBookRatingProps) => {
   const { title, rating } = props;
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center flex-col ">
       <BookRatingTitle title={title} />
-      <div className="flex items-center row-gap-2">
-      <BookRating rating={rating} />
-      <BookRatingText rating={rating} />
+      <div className="flex items-center flex-row gap-2">
+        <BookRating rating={rating} />
+        <BookRatingText rating={rating} />
       </div>
     </div>
   );
