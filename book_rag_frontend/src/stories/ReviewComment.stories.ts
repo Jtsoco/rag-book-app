@@ -26,6 +26,7 @@ export const Default: Story = {
 export const LiteraryRating: Story = {
   args: {
     reviewer: 'Jane Smith',
+    reviewerID: 123,
     comment: 'A profound exploration of human nature. A must-read for literature lovers.',
     rating: 5,
     ratingType: 'literary',
