@@ -5,12 +5,11 @@ export interface BookImageLargeProps {
   altText: string;
 }
 
-const BookImageLarge = (props: BookImageLargeProps) => {
+export const BookImageLarge = (props: BookImageLargeProps) => {
   const [imageError, setImageError] = useState(false);
 
     const { url, altText } = props;
 
-    const getImageElement = () => {
       if (imageError) {
         return (
           <div className="w-full h-full bg-gray-400 flex items-center justify-center p-4">
@@ -30,7 +29,4 @@ const BookImageLarge = (props: BookImageLargeProps) => {
           />
         );
       }
-    };
-
-    return()
-  }
+};

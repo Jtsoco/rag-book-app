@@ -12,34 +12,13 @@ export interface BookFocusModalProps {
   onMoreInfo: () => void;
 }
 import { BookTextInfo } from './bookComponentPieces/BookTextInfo';
-import { Book } from 'lucide-react';
-
+import { BookImageLarge } from './bookComponentPieces/BookImageLarge';
 
 export const BookFocusModal = (props: BookFocusModalProps) => {
   const [imageError, setImageError] = useState(false);
 
   const { title, author, description, coverUrl, enjoymentRating, literaryRating, onClose, onMoreInfo } = props;
-  const getImageElement = () => {
-    if (imageError) {
-      return (
-        <div className="w-full h-full bg-gray-400 flex items-center justify-center p-4">
-          <div className="text-center text-white bg-black p-4 rounded" >
-            <h3 className="text-sm font-bold">{title}</h3>
-            <p className="text-xs">{author}</p>
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <img
-          src={coverUrl}
-          alt={`${title} cover`}
-          className="w-full h-full object-cover"
-          onError={() => setImageError(true)}
-        />
-      );
-    }
-  };
+
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 text-black"
@@ -59,7 +38,7 @@ export const BookFocusModal = (props: BookFocusModalProps) => {
 
         {/* Left Side: Cover and Ratings */}
         <div className="flex flex-col items-center md:w-1/3">
-          {getImageElement()}
+          <BookImageLarge url={coverUrl} altText={`${title} cover`} />
           <div className="text-center mt-2">
             <div>
               <CombinedBookRating title="Literary Rating" rating={literaryRating} />
