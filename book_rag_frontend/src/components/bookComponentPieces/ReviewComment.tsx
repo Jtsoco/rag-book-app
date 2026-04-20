@@ -45,7 +45,7 @@ export const ClickableFullReviewComment = (props: ClickableFullReviewCommentProp
   const { comment, reviewer, reviewerID, rating, ratingType, timestamp, onClick } = props;
   return (
     <div className="bg-gray-100 p-4 rounded mb-4 cursor-pointer hover:bg-gray-200" >
-      <div className="flex items-center mb-2" onClick={() => {onClick(props.reviewerID)}}>
+      <div className="flex items-center mb-2 text-gray-700" onClick={() => {onClick(props.reviewerID)}}>
         <span className="font-bold mr-2" >{reviewer}</span>
         <span className="text-sm text-gray-500">{new Date(timestamp).toLocaleDateString()}</span>
       </div>

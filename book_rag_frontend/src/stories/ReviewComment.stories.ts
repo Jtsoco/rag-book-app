@@ -16,10 +16,13 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     reviewer: 'John Doe',
+    reviewerID: 123,
     comment: 'This book was fantastic! Highly recommend it to everyone.',
     rating: 4.5,
     ratingType: 'enjoyment',
-    timestamp: Date.now().toString(),
+    timestamp: new Date().toISOString(),
+    onClick: (reviewerID: number) => { console.log(`Reviewer ID ${reviewerID} clicked!`); },
+
   },
 };
 
@@ -30,7 +33,9 @@ export const LiteraryRating: Story = {
     comment: 'A profound exploration of human nature. A must-read for literature lovers.',
     rating: 5,
     ratingType: 'literary',
-    timestamp: Date.now().toString(),
+    timestamp: new Date().toISOString(),
+    onClick: (reviewerID: number) => { console.log(`Reviewer ID ${reviewerID} clicked!`); },
+
   },
 };
 
@@ -41,7 +46,7 @@ export const ShortComment: Story = {
     reviewerID: 123,
     rating: 3,
     ratingType: 'enjoyment',
-    timestamp: Date.now().toString(),
+    timestamp: new Date().toISOString(),
     onClick: (reviewerID: number) => { console.log(`Reviewer ID ${reviewerID} clicked!`); },
   },
 };
@@ -53,7 +58,7 @@ export const NoComment: Story = {
     reviewerID: 123,
     rating: 2,
     ratingType: 'enjoyment',
-    timestamp: Date.now().toString(),
+    timestamp: new Date().toISOString(),
     onClick: (reviewerID: number) => { console.log(`Reviewer ID ${reviewerID} clicked!`); },
   },
 };
@@ -65,7 +70,7 @@ export const LongComment: Story = {
     reviewerID: 123,
     rating: 4,
     ratingType: 'enjoyment',
-    timestamp: Date.now().toString(),
+    timestamp: new Date().toISOString(),
     onClick: (reviewerID: number) => { console.log(`Reviewer ID ${reviewerID} clicked!`); },
   },
 };

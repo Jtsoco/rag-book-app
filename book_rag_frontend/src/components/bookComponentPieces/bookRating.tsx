@@ -14,7 +14,7 @@ export const BookRating = (props: BookRatingProps) => {
 
 export const BookRatingText = (props: BookRatingProps) => {
   const { rating } = props;
-  return <span className="text-gray-700">{rating.toFixed(1)} / 5</span>;
+  return <span className="text-gray-700">{parseFloat(rating.toFixed(1))} / 5</span>;
 }
 
 export interface BookRatingTitleProps {
@@ -30,7 +30,7 @@ export interface CombinedBookRatingProps extends BookRatingProps, BookRatingTitl
 export const CombinedBookRating = (props: CombinedBookRatingProps) => {
   const { title, rating } = props;
   return (
-    <div className="flex items-center flex-col ">
+    <div className="flex items-center flex-col text-gray-700">
       <BookRatingTitle title={title} />
       <div className="flex items-center flex-row gap-2">
         <BookRating rating={rating} />
