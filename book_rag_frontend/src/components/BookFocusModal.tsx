@@ -15,7 +15,6 @@ import { BookTextInfo } from './bookComponentPieces/BookTextInfo';
 import { BookImageLarge } from './bookComponentPieces/BookImageLarge';
 
 export const BookFocusModal = (props: BookFocusModalProps) => {
-  const [imageError, setImageError] = useState(false);
 
   const { title, author, description, coverUrl, enjoymentRating, literaryRating, onClose, onMoreInfo } = props;
 
