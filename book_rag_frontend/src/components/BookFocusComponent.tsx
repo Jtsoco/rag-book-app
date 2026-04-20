@@ -23,7 +23,7 @@ export const BookFocusComponent = (props: BookFocusComponentProps) => {
     <div className="bg-white rounded-lg overflow-hidden flex flex-col md:flex-row h-96 md:h-1/2 gap-0">
 
       {/* Left: Large Image (60% width) */}
-      <div className=" w-full md:w-1/3 md:h-1/2 h-full flex-shrink-0">
+      <div className="flex-1">
         <BookImageLarge url={coverUrl} altText={`${title} cover`} />
       </div>
 
