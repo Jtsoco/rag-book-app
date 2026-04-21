@@ -20,7 +20,7 @@ export const BookFocusComponent = (props: BookFocusComponentProps) => {
   const { title, author, description, coverUrl, enjoymentRating, literaryRating, reviews, onMoreInfo } = props;
 
   return (
-    <div className="bg-white rounded-lg overflow-hidden flex flex-col md:flex-row h-96 md:h-1/2 gap-0">
+    <div className="bg-white rounded-lg overflow-hidden flex flex-col md:flex-row gap-0">
 
       {/* Left: Large Image (60% width) */}
       <div className="flex-1">
