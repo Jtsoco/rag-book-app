@@ -86,7 +86,7 @@ body,
 
 body {
   margin: 0;
-  color: var(--sea-ink);
+  color: var(black);
   font-family: var(--font-sans);
   background-color: var(--bg-base);
   background:
