@@ -1,5 +1,6 @@
-import { useState, useReducer } from "react";
+import { useState, useActionState } from "react";
 import React from "react";
+import { awaitTransitionEvent } from "./events/awaitTransitionEvent";
 
 export interface CarouselProps {
   children: React.ReactNode;
@@ -7,13 +8,11 @@ export interface CarouselProps {
 }
 interface CarouselState {
   currentIndex: number;
-  animating: boolean;
-  nextIndex: number | null;
-  direction: "left" | "right" | null;
+
 }
 
 interface CarouselAction {
-  type: "NEXT" | "PREV" | "ANIMATION_END";
+  type: "NEXT" | "PREV"
 }
 
 export const Carousel = (props: CarouselProps) => {
@@ -30,34 +29,55 @@ export const Carousel = (props: CarouselProps) => {
   }
 
 
+  function getSlideFromIndex(index: number): HTMLElement {
+    const slide = document.getElementById(`carousel-slide-${index}`);
+    if (!slide) {
+      throw new Error(`Slide with index ${index} not found`);
+    }
+    return slide;
+  }
+  function placeOffscreen(el: HTMLElement, direction: 'left' | 'right') {
+    el.style.transition = 'none'; // instant
+    el.style.transform = direction === 'right' ? 'translateX(100%)' : 'translateX(-100%)';
+    el.style.willChange = 'transform';
+    el.offsetHeight;
+  }
+
+  function animateIn(el: HTMLElement, durationMs = 500) {
+  // enable transition, then set transform -> 0
+  el.style.transition = `transform ${durationMs}ms ease-in-out`;
+  requestAnimationFrame(() => {
+    // second RAF ensures the browser saw the transition style before changing transform
+    requestAnimationFrame(() => {
+      el.style.transform = 'translateX(0)';
+    });
+  });
+}
+
+  async function animateOut(el: HTMLElement, direction: 'left' | 'right', durationMs = 500): Promise<void> {
+  el.style.transition = `transform ${durationMs}ms ease-in-out`;
+  el.style.transform = direction === 'right' ? 'translateX(-100%)' : 'translateX(100%)';
+  await awaitTransitionEvent(el, durationMs);
+}
+
+  async function transitionSlides(firstSlide: HTMLElement, secondSlide: HTMLElement, direction: "left" | "right"): Promise<void> {
+    placeOffscreen(secondSlide, direction);
+    await Promise.all([
+      animateOut(firstSlide, direction),
+      animateIn(secondSlide),
+    ]);
+
+  }
+
+
   function carouselReducer(state: CarouselState, action: CarouselAction):CarouselState {
+    if (isPending) {
+      return state;
+    }
     switch (action.type) {
       case "NEXT":
-        return {
-          ...state,
-          animating: true,
-          nextIndex: getNextIndex("right"),
-          direction: "right",
-        };
-      case "PREV":
-        return {
-          ...state,
-          animating: true,
-          nextIndex: getNextIndex("left"),
-          direction: "left",
-        };
-      case "ANIMATION_END":
-        if (state.nextIndex === null) {
-          return {...state};
-          // should never happen
-        }
-        return {
-          ...state,
-          animating: false,
-          currentIndex: state.nextIndex,
-          nextIndex: null,
-          direction: null,
-        };
+
+
       default:
         return state;
     }
@@ -65,11 +85,8 @@ export const Carousel = (props: CarouselProps) => {
   }
 
 
-  const[currentState, setCurrentState] = useReducer(carouselReducer, {
+  const[currentState, setCurrentState, isPending] = useActionState(carouselReducer, {
     currentIndex: 0,
-    animating: false,
-    nextIndex: null,
-    direction: null,
   });
 
   return (
