@@ -12,7 +12,7 @@ export const BookImageLarge = (props: BookImageLargeProps) => {
 
       if (imageError) {
         return (
-          <div className=" flex-grow-1 bg-gray-400 flex items-center justify-center p-4 aspect-[2/3]">
+          <div className="w-full bg-gray-400 flex items-center justify-center aspect-[2/3]">
             <div className="text-center text-white bg-black p-4 rounded" >
               <h3 className="text-sm font-bold">{altText}</h3>
 
@@ -24,7 +24,7 @@ export const BookImageLarge = (props: BookImageLargeProps) => {
           <img
             src={url}
             alt={`${altText}`}
-            className="flex-grow-1 object-cover aspect-[2/3]"
+            className="w-full object-cover aspect-[2/3]"
             onError={() => setImageError(true)}
           />
         );
