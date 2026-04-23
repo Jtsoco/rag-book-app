@@ -46,12 +46,7 @@ export const Carousel = (props: CarouselProps) => {
   const transition = `transform ${durationMs}ms ease-in-out`;
   const transform = 'translateX(0)';
 
-  // requestAnimationFrame(() => {
-  //   // second RAF ensures the browser saw the transition style before changing transform
-  //   requestAnimationFrame(() => {
-  //     el.style.transform = 'translateX(0)';
-  //   });
-  // });
+
   const transitionHandler = makeTransitionHandler(el, transition, transform);
   await awaitTransitionEvent(el, transitionHandler);
 }
