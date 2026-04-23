@@ -1,15 +1,13 @@
 import { useState, useActionState } from "react";
 import React from "react";
 import { awaitTransitionEvent } from "./events/awaitTransitionEvent";
+import { startTransition } from "react";
 
 export interface CarouselProps {
   children: React.ReactNode;
 
 }
-interface CarouselState {
-  currentIndex: number;
 
-}
 
 interface CarouselAction {
   type: "NEXT" | "PREV"
@@ -18,7 +16,6 @@ interface CarouselAction {
 export const Carousel = (props: CarouselProps) => {
   const slides = React.Children.toArray(props.children);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
 
   function getNextIndex(direction: "left" | "right"): number {
     if (direction === "left") {
@@ -37,28 +34,46 @@ export const Carousel = (props: CarouselProps) => {
     return slide;
   }
   function placeOffscreen(el: HTMLElement, direction: 'left' | 'right') {
+    el.classList.remove('hidden');
     el.style.transition = 'none'; // instant
     el.style.transform = direction === 'right' ? 'translateX(100%)' : 'translateX(-100%)';
     el.style.willChange = 'transform';
-    el.offsetHeight;
+    el.offsetHeight; // makes sure initial animation is applied before we do the next transition
   }
 
-  function animateIn(el: HTMLElement, durationMs = 500) {
+  async function animateIn(el: HTMLElement, durationMs = 500): Promise<void> {
   // enable transition, then set transform -> 0
-  el.style.transition = `transform ${durationMs}ms ease-in-out`;
-  requestAnimationFrame(() => {
-    // second RAF ensures the browser saw the transition style before changing transform
-    requestAnimationFrame(() => {
-      el.style.transform = 'translateX(0)';
-    });
-  });
+  const transition = `transform ${durationMs}ms ease-in-out`;
+  const transform = 'translateX(0)';
+
+  // requestAnimationFrame(() => {
+  //   // second RAF ensures the browser saw the transition style before changing transform
+  //   requestAnimationFrame(() => {
+  //     el.style.transform = 'translateX(0)';
+  //   });
+  // });
+  const transitionHandler = makeTransitionHandler(el, transition, transform);
+  await awaitTransitionEvent(el, transitionHandler);
 }
 
+  function makeTransitionHandler(el: HTMLElement, transition: string, transform: string) {
+    return () => {
+      el.style.transition = transition;
+      el.style.transform = transform;
+    }
+
+  }
+
+
+
+
   async function animateOut(el: HTMLElement, direction: 'left' | 'right', durationMs = 500): Promise<void> {
-  el.style.transition = `transform ${durationMs}ms ease-in-out`;
-  el.style.transform = direction === 'right' ? 'translateX(-100%)' : 'translateX(100%)';
-  await awaitTransitionEvent(el);
-}
+    const transition = `transform ${durationMs}ms ease-in-out`;
+    const transform = direction === 'right' ? 'translateX(-100%)' : 'translateX(100%)';
+    const transitionHandler = makeTransitionHandler(el, transition, transform);
+    await awaitTransitionEvent(el, transitionHandler);
+
+  }
 
   async function transitionSlides(firstSlide: HTMLElement, secondSlide: HTMLElement, direction: "left" | "right"): Promise<void> {
     placeOffscreen(secondSlide, direction);
@@ -66,6 +81,8 @@ export const Carousel = (props: CarouselProps) => {
       animateOut(firstSlide, direction),
       animateIn(secondSlide),
     ]);
+    console.log('Both animations complete');
+    // firstSlide.style.display = 'none';
 
   }
 
@@ -75,6 +92,7 @@ export const Carousel = (props: CarouselProps) => {
     const currentSlide = getSlideFromIndex(currentIndex);
     const nextSlide = getSlideFromIndex(nextIndex);
     await transitionSlides(currentSlide, nextSlide, dir)
+    console.log(`Transition to slide ${nextIndex} complete`);
     return nextIndex;
   }
 
@@ -101,15 +119,34 @@ export const Carousel = (props: CarouselProps) => {
   }
 
 
-  const[currentState, setCurrentState, isPending] = useActionState(carouselReducerAction, 0);
+  const[currentIndex, setCurrentIndex, isPending] = useActionState(carouselReducerAction, 0);
+  function handleClick(action: CarouselAction) {
+    startTransition(() => {
+      setCurrentIndex(action);
+    })
+  }
 
   return (
     <div className="relative w-[90vw] h-screen overflow-hidden">
       {slides.map((child, index) => (
-        <div key={index} className={`absolute inset-0 w-full h-full ${index === currentIndex ? "block" : "hidden"}`}>
+        <div key={index} id={`carousel-slide-${index}`} className={`absolute inset-0 w-full h-full ${index === currentIndex ? "block" : "hidden"}`}>
           {child}
         </div>
       ))}
+      <div className="absolute inset-0 flex items-center justify-between pointer-events-none">
+        <button
+          className="pointer-events-auto bg-gray-800 bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-colors"
+          onClick={() => handleClick({type: "PREV"})}
+        >
+          &#8592;
+        </button>
+        <button
+          className="pointer-events-auto bg-gray-800 bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-colors"
+          onClick={() => handleClick({type: "NEXT"})}
+        >
+          &#8594;
+        </button>
+      </div>
     </div>
   );
 }
