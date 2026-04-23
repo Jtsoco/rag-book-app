@@ -1,4 +1,4 @@
-function awaitTransition(element: HTMLElement): Promise<void> {
+export function awaitTransitionEvent(element: HTMLElement): Promise<void> {
   return new Promise((resolve) => {
     element.addEventListener('transitioned', () => {
       resolve();

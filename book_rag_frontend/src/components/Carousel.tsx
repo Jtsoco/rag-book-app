@@ -57,7 +57,7 @@ export const Carousel = (props: CarouselProps) => {
   async function animateOut(el: HTMLElement, direction: 'left' | 'right', durationMs = 500): Promise<void> {
   el.style.transition = `transform ${durationMs}ms ease-in-out`;
   el.style.transform = direction === 'right' ? 'translateX(-100%)' : 'translateX(100%)';
-  await awaitTransitionEvent(el, durationMs);
+  await awaitTransitionEvent(el);
 }
 
   async function transitionSlides(firstSlide: HTMLElement, secondSlide: HTMLElement, direction: "left" | "right"): Promise<void> {
@@ -70,24 +70,38 @@ export const Carousel = (props: CarouselProps) => {
   }
 
 
-  function carouselReducer(state: CarouselState, action: CarouselAction):CarouselState {
+  async function goToSlide(dir: "left" | "right"): Promise<number> {
+    const nextIndex = getNextIndex(dir);
+    const currentSlide = getSlideFromIndex(currentIndex);
+    const nextSlide = getSlideFromIndex(nextIndex);
+    await transitionSlides(currentSlide, nextSlide, dir)
+    return nextIndex;
+  }
+
+
+  async function carouselReducerAction(state: number, action: CarouselAction): Promise<number> {
     if (isPending) {
       return state;
     }
+    let nextState: number;
     switch (action.type) {
       case "NEXT":
+        nextState = await goToSlide('right');
+        return nextState
+      case "PREV":
+        nextState = await goToSlide('left');
+        return nextState
 
 
       default:
-        return state;
+        nextState = state;
+        return nextState;
     }
 
   }
 
 
-  const[currentState, setCurrentState, isPending] = useActionState(carouselReducer, {
-    currentIndex: 0,
-  });
+  const[currentState, setCurrentState, isPending] = useActionState(carouselReducerAction, 0);
 
   return (
     <div className="relative w-[90vw] h-screen overflow-hidden">
