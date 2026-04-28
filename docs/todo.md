@@ -9,3 +9,6 @@
 - [ ] Book Main Focus Component
 - [ ] Book Page
 - [ ]
+
+- [ ] add id to bookCards?
+- [ ] reconcile using both open library api and own database
