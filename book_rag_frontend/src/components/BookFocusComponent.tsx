@@ -28,7 +28,7 @@ export const BookFocusComponent = (props: BookFocusComponentProps) => {
       </div>
 
       {/* Right: Info and Reviews (40% width) */}
-      <div className="w-full md:w-2/5 h-full p-6 flex flex-col">
+      <div className="w-full md:w-2/5 h-full p-2 flex flex-col">
 
         {/* Top: Book Info */}
         <div className="flex-shrink-0">
@@ -49,9 +49,9 @@ export const BookFocusComponent = (props: BookFocusComponentProps) => {
 
         {/* Bottom: Reviews */}
       </div>
-        <div className="mt-6 md:w-2/5 h-full">
+      <div className="flex-1 min-w-0 h-full p-2 overflow-hidden">
           <h2 className="text-xl font-bold mb-4">Reviews</h2>
-          <div className="space-y-3">
+          <div className="space-y-3 overflow-hidden h-full">
             {reviews.map((review, index) => (
               <FullReviewComment key={index} {...review} />
             ))}

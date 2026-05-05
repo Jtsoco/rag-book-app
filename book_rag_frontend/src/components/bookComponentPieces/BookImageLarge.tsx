@@ -12,7 +12,7 @@ export const BookImageLarge = (props: BookImageLargeProps) => {
 
       if (imageError) {
         return (
-          <div className="w-full bg-gray-400 flex items-center justify-center aspect-[2/3]">
+          <div className="h-full bg-gray-400 flex items-center justify-center aspect-[2/3]">
             <div className="text-center text-white bg-black p-4 rounded" >
               <h3 className="text-sm font-bold">{altText}</h3>
 
