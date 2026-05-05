@@ -5,6 +5,8 @@ import { startTransition } from "react";
 
 export interface CarouselProps {
   children: React.ReactNode;
+  height?: string;
+  width?: string;
 
 }
 
@@ -15,7 +17,8 @@ interface CarouselAction {
 
 export const Carousel = (props: CarouselProps) => {
   const slides = React.Children.toArray(props.children);
-
+  const height = props.height || "h-screen";
+  const width = props.width || "w-[90vw]";
 
   function getNextIndex(direction: "left" | "right"): number {
     if (direction === "left") {
@@ -122,7 +125,7 @@ export const Carousel = (props: CarouselProps) => {
   }
 
   return (
-    <div className="relative w-[90vw] h-screen overflow-hidden">
+    <div className={"relative overflow-hidden" + " " + height + " " + width}>
       {slides.map((child, index) => (
         <div key={index} id={`carousel-slide-${index}`} className={`absolute inset-0 w-full h-full ${index === currentIndex ? "block" : "hidden"}`}>
           {child}

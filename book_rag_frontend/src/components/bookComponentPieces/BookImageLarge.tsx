@@ -24,7 +24,7 @@ export const BookImageLarge = (props: BookImageLargeProps) => {
           <img
             src={url}
             alt={`${altText}`}
-            className="w-full object-cover aspect-[2/3]"
+            className=" h-full object-contain aspect-[2/3]"
             onError={() => setImageError(true)}
           />
         );

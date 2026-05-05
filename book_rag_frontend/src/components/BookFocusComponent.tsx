@@ -20,15 +20,15 @@ export const BookFocusComponent = (props: BookFocusComponentProps) => {
   const { title, author, description, coverUrl, enjoymentRating, literaryRating, reviews, onMoreInfo } = props;
 
   return (
-    <div className="bg-white rounded-lg overflow-hidden flex flex-col md:flex-row gap-0">
+    <div className="bg-white rounded-lg overflow-hidden flex flex-col md:flex-row gap-0 h-full w-full">
 
       {/* Left: Large Image (60% width) */}
-      <div className="flex-1">
+      <div className=" h-full">
         <BookImageLarge url={coverUrl} altText={`${title} cover`} />
       </div>
 
       {/* Right: Info and Reviews (40% width) */}
-      <div className="w-full md:w-2/5 p-6 flex flex-col overflow-y-auto">
+      <div className="w-full md:w-2/5 h-full p-6 flex flex-col">
 
         {/* Top: Book Info */}
         <div className="flex-shrink-0">
@@ -49,7 +49,7 @@ export const BookFocusComponent = (props: BookFocusComponentProps) => {
 
         {/* Bottom: Reviews */}
       </div>
-        <div className="mt-6 flex-1 overflow-y-auto">
+        <div className="mt-6 md:w-2/5 h-full">
           <h2 className="text-xl font-bold mb-4">Reviews</h2>
           <div className="space-y-3">
             {reviews.map((review, index) => (
