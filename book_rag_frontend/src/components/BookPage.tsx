@@ -24,23 +24,23 @@ export const BookPage = (props: BookPageProps) => {
   // description to the right of the image, with title and author above it
   // reviews below the description, scrollable down below, showing only the first 3 reviews for now, and a "see all reviews" button that will open a modal with all the reviews
 
-    <div className="bg-white rounded-lg overflow-hidden flex flex-col md:flex-row gap-0">
+    <div className="bg-white rounded-lg overflow-hidden flex flex-col md:flex-row gap-0 ">
       {/* Left: Large Image (60% width) */}
-      <div className="flex-1">
+      <div className=" h-[80vh]">
         <BookImageLarge url={coverUrl} altText={`${title} cover`} />
+          <div className="flex gap-4 mt-4 mb-4">
+            <CombinedBookRating title="Literary" rating={literaryRating} />
+            <CombinedBookRating title="Enjoyment" rating={enjoymentRating} />
+          </div>
       </div>
 
       {/* Right: Info and Reviews (40% width) */}
-      <div className="w-full md:w-2/5 p-6 flex flex-col overflow-y-auto">
+      <div className=" p-6 flex flex-col overflow-y-auto">
 
         {/* Top: Book Info */}
         <div className="flex-shrink-0">
           <BookTextInfo title={title} author={author} description={description} />
 
-          <div className="flex gap-4 mt-4 mb-4">
-            <CombinedBookRating title="Literary" rating={literaryRating} />
-            <CombinedBookRating title="Enjoyment" rating={enjoymentRating} />
-          </div>
 
           <button
             className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
