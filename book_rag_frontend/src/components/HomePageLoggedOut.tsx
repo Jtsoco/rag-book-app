@@ -3,7 +3,6 @@
 // beneath that is the various BookCarousel components
 
 import { BookCarousel } from "./BookCarousel";
-import { BookPage } from "./BookPage";
 import { Carousel } from "./Carousel";
 import { BookFocusComponent } from "./BookFocusComponent";
 
@@ -13,8 +12,12 @@ import { type BookFocusComponentProps, } from "./BookFocusComponent";
 import { type BookCardProps } from "./BookCard";
 import { type CarouselProps as BookCarouselProps} from "./BookCarousel";
 import { SearchBar } from "./header/searchBar";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getFeaturedBooks, getBookInfoCarousels } from "../api/books";
+import { useQuery } from "@tanstack/react-query";
+import { getFeaturedBooks, getBookInfoCarousels } from "#/api/books";
+import {
+  type BookInfoCarouselApiData,
+  type FeaturedBookApiData,
+} from "#/api/mockData";
 
 export interface HomePageDefaultProps {
   featuredBooks: BookFocusComponentProps[];
@@ -25,20 +28,21 @@ export interface HomePageDefaultProps {
 }
 
 export const HomePageDefault = (props: HomePageDefaultProps) => {
-
-  const queryClient = useQueryClient();
-
-  const { data: featuredBooks, isLoading: isLoadingFeaturedBooks } = useQuery<BookFocusComponentProps[]>({
+  const { data: featuredBooks, isLoading: isLoadingFeaturedBooks } = useQuery<FeaturedBookApiData[]>({
     queryKey: ['featuredBooks'],
     queryFn: getFeaturedBooks,
   });
-  const { data: bookInfoCarousels, isLoading: isLoadingBookInfoCarousels } = useQuery<BookCarouselProps[]>({
+  const { data: bookInfoCarousels, isLoading: isLoadingBookInfoCarousels } = useQuery<BookInfoCarouselApiData[]>({
     queryKey: ['bookInfoCarousels'],
     queryFn: getBookInfoCarousels,
   });
 
-  const onMoreInfoClick = (book: BookCardProps) => {
-    // take it to the book page for that book
+  const onFeaturedMoreInfoClick = (book: FeaturedBookApiData) => {
+    props.onMoreInfoClick({
+      title: book.title,
+      author: book.author,
+      coverUrl: book.coverUrl,
+    });
   };
 
 
@@ -56,13 +60,13 @@ export const HomePageDefault = (props: HomePageDefaultProps) => {
               <BookFocusComponent
                 key={index}
                 {...book}
-                onMoreInfo={() => onMoreInfoClick(book)}
+                onMoreInfo={() => onFeaturedMoreInfoClick(book)}
               />
             ))}
           </Carousel>
 
           {bookInfoCarousels?.map((carousel, index) => (
-            <BookCarousel key={index} {...carousel} onBookClick={onMoreInfoClick} />
+            <BookCarousel key={index} {...carousel} onBookClick={props.onBookClick} />
           ))}
         </div>
       )}
