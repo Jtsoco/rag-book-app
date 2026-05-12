@@ -1,22 +1,31 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { HomePageDefault } from '#/components/HomePageLoggedOut'
+import type { BookCardProps } from '#/components/BookCard'
 
-import { useQuery, useQueryClient, QueryClientProvider, QueryClient, Query } from "@tanstack/react-query";
 export const Route = createFileRoute('/')({ component: App })
 
 function App() {
-  const queryClient = useQueryClient();
+  const handleBookClick = (book: BookCardProps) => {
+    console.log('Book clicked:', book)
+  }
+
+  const handleMoreInfoClick = (book: BookCardProps) => {
+    console.log('More info clicked for:', book)
+  }
+
+  const handleSearch = (query: string) => {
+    console.log('Search query:', query)
+  }
 
   return (
     <main>
-      <QueryClientProvider client={queryClient}>
-
-
-      </ QueryClientProvider >
-
-
-
-
+      <HomePageDefault
+        featuredBooks={[]}
+        bookInfoCarousels={[]}
+        onBookClick={handleBookClick}
+        onMoreInfoClick={handleMoreInfoClick}
+        onSearch={handleSearch}
+      />
     </main>
-
   )
 }
