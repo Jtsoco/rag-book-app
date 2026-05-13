@@ -17,7 +17,7 @@ export interface CarouselBookApiData {
 }
 
 export interface BookInfoCarouselApiData {
-  title: string;
+  category: string;
   books: CarouselBookApiData[];
 }
 
@@ -72,7 +72,7 @@ export const featuredBooksMockData: FeaturedBookApiData[] = [
 
 export const bookInfoCarouselsMockData: BookInfoCarouselApiData[] = [
   {
-    title: 'Trending This Week',
+    category: 'Trending This Week',
     books: [
       {
         title: '1984',
@@ -102,7 +102,7 @@ export const bookInfoCarouselsMockData: BookInfoCarouselApiData[] = [
     ],
   },
   {
-    title: 'Literary Favorites',
+    category: 'Literary Favorites',
     books: [
       {
         title: 'To Kill a Mockingbird',
@@ -132,7 +132,7 @@ export const bookInfoCarouselsMockData: BookInfoCarouselApiData[] = [
     ],
   },
   {
-    title: 'Quick Weekend Reads',
+    category: 'Quick Weekend Reads',
     books: [
       {
         title: 'The Ocean at the End of the Lane',

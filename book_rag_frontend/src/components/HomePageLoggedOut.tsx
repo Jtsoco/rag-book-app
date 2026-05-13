@@ -12,12 +12,6 @@ import { type BookFocusComponentProps, } from "./BookFocusComponent";
 import { type BookCardProps } from "./BookCard";
 import { type CarouselProps as BookCarouselProps} from "./BookCarousel";
 import { SearchBar } from "./header/searchBar";
-import { useQuery } from "@tanstack/react-query";
-import { getFeaturedBooks, getBookInfoCarousels } from "#/api/books";
-import {
-  type BookInfoCarouselApiData,
-  type FeaturedBookApiData,
-} from "#/api/mockData";
 
 export interface HomePageDefaultProps {
   featuredBooks: BookFocusComponentProps[];
@@ -28,16 +22,7 @@ export interface HomePageDefaultProps {
 }
 
 export const HomePageDefault = (props: HomePageDefaultProps) => {
-  const { data: featuredBooks, isLoading: isLoadingFeaturedBooks } = useQuery<FeaturedBookApiData[]>({
-    queryKey: ['featuredBooks'],
-    queryFn: getFeaturedBooks,
-  });
-  const { data: bookInfoCarousels, isLoading: isLoadingBookInfoCarousels } = useQuery<BookInfoCarouselApiData[]>({
-    queryKey: ['bookInfoCarousels'],
-    queryFn: getBookInfoCarousels,
-  });
-
-  const onFeaturedMoreInfoClick = (book: FeaturedBookApiData) => {
+  const onFeaturedMoreInfoClick = (book: BookFocusComponentProps) => {
     props.onMoreInfoClick({
       title: book.title,
       author: book.author,
@@ -51,25 +36,21 @@ export const HomePageDefault = (props: HomePageDefaultProps) => {
     <div className="home-page-default">
       <SearchBar onSearch={props.onSearch} />
 
-      {isLoadingFeaturedBooks || isLoadingBookInfoCarousels ? (
-        <div>Loading...</div>
-      ) : (
-        <div>
-          <Carousel height="h-[50vh]" width="w-full">
-            {featuredBooks?.map((book, index) => (
-              <BookFocusComponent
-                key={index}
-                {...book}
-                onMoreInfo={() => onFeaturedMoreInfoClick(book)}
-              />
-            ))}
-          </Carousel>
-
-          {bookInfoCarousels?.map((carousel, index) => (
-            <BookCarousel key={index} {...carousel} onBookClick={props.onBookClick} />
+      <div>
+        <Carousel height="h-[50vh]" width="w-full">
+          {props.featuredBooks.map((book, index) => (
+            <BookFocusComponent
+              key={index}
+              {...book}
+              onMoreInfo={() => onFeaturedMoreInfoClick(book)}
+            />
           ))}
-        </div>
-      )}
+        </Carousel>
+
+        {props.bookInfoCarousels.map((carousel, index) => (
+          <BookCarousel key={index} {...carousel} onBookClick={props.onBookClick} />
+        ))}
+      </div>
     </div>
   );
 }
