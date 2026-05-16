@@ -5,5 +5,6 @@ export const Route = createFileRoute('/books/title/title/$titleName')({
 })
 
 function RouteComponent() {
-  return <div>Hello "/books/title/title/$titleName"!</div>
+  const { titleName } = Route.useParams()
+  return (<div>Hello "/books/title/title/$titleName"!</div>)
 }
