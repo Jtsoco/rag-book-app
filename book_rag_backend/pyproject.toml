@@ -12,6 +12,7 @@ dependencies = [
     "dj-rest-auth==7.1.1",
     "django==6.0.2",
     "django-allauth==65.14.3",
+    "django-cors-headers>=4.9.0",
     "djangorestframework==3.16.1",
     "dotenv==0.9.9",
     "h11==0.16.0",
